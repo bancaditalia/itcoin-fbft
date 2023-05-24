@@ -1,18 +1,21 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "stubs.h"
 
 #include <boost/algorithm/string/join.hpp>
 #include <boost/format.hpp>
 
-#include "../../PbftConfig.h"
+#include "config/FbftConfig.h"
 
-namespace msgs = itcoin::pbft::messages;
+namespace msgs = itcoin::fbft::messages;
 
 using namespace std;
 
 namespace itcoin {
 namespace test {
 
-DummyRoastWallet::DummyRoastWallet(const itcoin::PbftConfig& conf):
+DummyRoastWallet::DummyRoastWallet(const itcoin::FbftConfig& conf):
 Wallet(conf), RoastWallet(conf)
 {
   // Init state

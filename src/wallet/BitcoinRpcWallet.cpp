@@ -1,21 +1,23 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "wallet.h"
 
 #include <boost/format.hpp>
 #include <boost/log/trivial.hpp>
 
-#include "../PbftConfig.h"
-#include "../block/extract.h"
-#include "../block/psbt_utils.h"
-#include "../pbft/messages/messages.h"
+#include "config/FbftConfig.h"
+#include "../blockchain/extract.h"
+#include "../fbft/messages/messages.h"
 #include "../transport/btcclient.h"
 
 using namespace std;
-using Message = itcoin::pbft::messages::Message;
+using Message = itcoin::fbft::messages::Message;
 
 namespace itcoin {
 namespace wallet {
 
-BitcoinRpcWallet::BitcoinRpcWallet(const itcoin::PbftConfig& conf, transport::BtcClient& bitcoind):
+BitcoinRpcWallet::BitcoinRpcWallet(const itcoin::FbftConfig& conf, transport::BtcClient& bitcoind):
 Wallet(conf), m_bitcoind(bitcoind)
 {
   m_pubkey_address = m_conf.replica_set_v().at(m_conf.id()).p2pkh();
@@ -61,56 +63,6 @@ bool BitcoinRpcWallet::VerifySignature(const Message& message) const
     msg_sig,
     msg_digest
   );
-}
-
-std::string BitcoinRpcWallet::GetBlockSignature(const CBlock& block)
-{
-  const std::string psbt = block::createPsbt(block, m_conf.getSignetChallenge());
-  const auto [ psbt0, isComplete0 ] = block::signPsbt(m_bitcoind, psbt);
-  return psbt0;
-}
-
-CBlock BitcoinRpcWallet::FinalizeBlock(const CBlock& block,
-  const std::vector<std::string> signatures) const
-{
-  Json::Value psbt_list;
-
-  for (string sig: signatures)
-  {
-    psbt_list.append(sig);
-
-  }
-
-  string combinedPsbt = m_bitcoind.combinepsbt(psbt_list);
-
-  BOOST_LOG_TRIVIAL(trace) << str(
-    boost::format("R%1% BitcoinRpcWallet combined PSBT = %2%.")
-      % m_conf.id()
-      % combinedPsbt
-  );
-
-  auto finalizeResponse = m_bitcoind.finalizepsbt(combinedPsbt, false);
-
-  BOOST_LOG_TRIVIAL(trace) << str(
-    boost::format("R%1% BitcoinRpcWallet finalized PSBT = %2%.")
-      % m_conf.id()
-      % finalizeResponse.toStyledString()
-  );
-
-  auto finalizedPsbt = finalizeResponse["psbt"].asString();
-  auto isComplete = finalizeResponse["complete"].asBool();
-  if (!isComplete) {
-    throw std::runtime_error("R%1% BitcoinRpcWallet cannot complete the PSBT");
-  }
-
-  CBlock signed_block = block::extractBlock(m_bitcoind, finalizedPsbt);
-
-  BOOST_LOG_TRIVIAL(trace) << str(
-    boost::format("R%1% BitcoinRpcWallet succesfully extracted signed block from finalized PSBT.")
-      % m_conf.id()
-  );
-
-  return signed_block;
 }
 
 }

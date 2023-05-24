@@ -1,8 +1,11 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #ifndef ITCOIN_TRANSPORT_ZCOMM_H
 #define ITCOIN_TRANSPORT_ZCOMM_H
 
-#include "../PbftConfig.h"
-#include "../network/network.h"
+#include "config/FbftConfig.h"
+#include "network.h"
 #include <boost/signals2.hpp>
 
 #define ZMQ_BUILD_DRAFT_API
@@ -12,10 +15,10 @@ namespace bs2 = boost::signals2;
 
 namespace itcoin {
 
-namespace pbft {
+namespace fbft {
 namespace messages {
   class Message;
-} // namespace pbft;
+} // namespace fbft;
 } // namespace messages;
 
 namespace transport {
@@ -52,9 +55,9 @@ class ZComm : public network::NetworkTransport {
      * full.
      *
      * conf:
-     *     A PbftConfig object
+     *     A FbftConfig object
      */
-    ZComm(const itcoin::PbftConfig& conf);
+    ZComm(const itcoin::FbftConfig& conf);
 
     /**
      * Broadcasts a message to all the replicas configured in
@@ -67,7 +70,7 @@ class ZComm : public network::NetworkTransport {
      */
     void broadcast(const std::string& bin_buffer);
 
-    void BroadcastMessage(std::unique_ptr<pbft::messages::Message> p_msg);
+    void BroadcastMessage(std::unique_ptr<fbft::messages::Message> p_msg);
 
     /**
      * Runs forever. Relevant events are published via the following

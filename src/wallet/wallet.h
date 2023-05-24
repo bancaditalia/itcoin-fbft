@@ -1,17 +1,20 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #ifndef ITCOIN_WALLET_WALLET_H
 #define ITCOIN_WALLET_WALLET_H
 
 #include <psbt.h>
 #include <primitives/block.h>
-#include "../frost/frost.hpp"
-#include "../frost/three_fbft_helpers.hpp"
+#include <secp256k1/include/secp256k1.h>
+#include <secp256k1/include/secp256k1_frost.h>
 
-namespace itcoin{ namespace pbft{ namespace messages {
+namespace itcoin{ namespace fbft{ namespace messages {
   class Message;
 }}}
 
 namespace itcoin {
-  class PbftConfig;
+  class FbftConfig;
 }
 
 namespace itcoin { namespace transport {
@@ -24,126 +27,73 @@ namespace wallet {
 class Wallet
 {
   public:
-    Wallet(const itcoin::PbftConfig& conf);
+    Wallet(const itcoin::FbftConfig& conf);
 
     // These methods are used to sign and verify the signatures on the messages
-    virtual void AppendSignature(itcoin::pbft::messages::Message& message) const = 0;
-    virtual bool VerifySignature(const itcoin::pbft::messages::Message& message) const = 0;
-
-    virtual std::string GetBlockSignature(const CBlock&) = 0;
-    virtual CBlock FinalizeBlock(const CBlock&, const std::vector<std::string>) const = 0;
+    virtual void AppendSignature(itcoin::fbft::messages::Message& message) const = 0;
+    virtual bool VerifySignature(const itcoin::fbft::messages::Message& message) const = 0;
 
   protected:
-    const itcoin::PbftConfig& m_conf;
+    const itcoin::FbftConfig& m_conf;
 };
 
 class RoastWallet : virtual public Wallet
 {
   public:
-    RoastWallet(const itcoin::PbftConfig& conf);
+    RoastWallet(const itcoin::FbftConfig& conf);
 
     virtual std::string GetPreSignatureShare() = 0;
     virtual std::string GetSignatureShare(std::vector<uint32_t> signers, std::string pre_signature, const CBlock&) = 0;
     virtual CBlock FinalizeBlock(const CBlock&, const std::string pre_sig, const std::vector<std::string> sig_shares) const = 0;
-
-    // This is a concrete method that just calls GetPreSignatureShare
-    std::string GetBlockSignature(const CBlock&);
-
-    // This is a concrete method that throws a runtime exception
-    CBlock FinalizeBlock(const CBlock&, const std::vector<std::string>) const;
 };
 
 class BitcoinRpcWallet: virtual public Wallet
 {
   public:
-    BitcoinRpcWallet(const itcoin::PbftConfig& conf, transport::BtcClient& bitcoind);
+    BitcoinRpcWallet(const itcoin::FbftConfig& conf, transport::BtcClient& bitcoind);
 
-    void AppendSignature(itcoin::pbft::messages::Message& message) const;
-    bool VerifySignature(const itcoin::pbft::messages::Message& message) const;
-
-    std::string GetBlockSignature(const CBlock&);
-    CBlock FinalizeBlock(const CBlock&, const std::vector<std::string>) const;
+    void AppendSignature(itcoin::fbft::messages::Message& message) const;
+    bool VerifySignature(const itcoin::fbft::messages::Message& message) const;
 
   protected:
     transport::BtcClient& m_bitcoind;
     std::string m_pubkey_address;
 };
+
 class RoastWalletImpl: public BitcoinRpcWallet, public RoastWallet
 {
   public:
-    RoastWalletImpl(const itcoin::PbftConfig& conf, transport::BtcClient& bitcoind);
+    RoastWalletImpl(const itcoin::FbftConfig& conf, transport::BtcClient& bitcoind);
     ~RoastWalletImpl();
 
     CBlock FinalizeBlock(const CBlock&, const std::string, const std::vector<std::string>) const override;
     std::string GetPreSignatureShare() override;
     std::string GetSignatureShare(std::vector<uint32_t> signers, std::string pre_signature, const CBlock& block) override;
 
-    // This concrete method just calls RoastWallet::GetPreSignatureShare()
-    std::string GetBlockSignature(const CBlock&);
-    // This concrete method just calls RoastWallet::FinalizeBlock()
-    CBlock FinalizeBlock(const CBlock&, const std::vector<std::string>) const;
-    // This concrete method just calls BitcoinRpcWallet::AppendSignature()
-    void AppendSignature(itcoin::pbft::messages::Message &message) const;
-    // This concrete method just calls BitcoinRpcWallet::VerifySignature()
-    bool VerifySignature(const itcoin::pbft::messages::Message &message) const;
-
   private:
-    keypair InitializeKeyPair(const itcoin::PbftConfig &conf, transport::BtcClient &bitcoind) const;
+    secp256k1_frost_keypair *InitializeKeyPair(const itcoin::FbftConfig &conf, transport::BtcClient &bitcoind) const;
     std::vector<std::string> SplitPreSignatures(std::string serializedList) const;
-    signature AggregateSignatureShares(const unsigned char *message, const size_t message_size,
-                                       const std::string &pre_signatures,
-                                       const std::vector<std::string> &signature_shares) const;
+    void AggregateSignatureShares(unsigned char *signature64,
+                                                   const unsigned char *message32,
+                                                   const std::string &pre_signatures,
+                                                   const std::vector<std::string> &signature_shares) const;
     uint256 TaprootSignatureHash(const CMutableTransaction &spendTx, const CMutableTransaction &toSpendTx) const;
+    void DeserializePublicKey(std::string serialized_public_key, unsigned char *output33) const;
+    void HexToCharArray(const std::string str, unsigned char *retval) const;
+    std::string CharArrayToHex(const unsigned char *bytearray, size_t size) const;
+    void FillRandom(unsigned char *data, size_t size);
+    std::string SerializeSigningCommitment(const secp256k1_frost_nonce_commitment *commitments) const;
+    secp256k1_frost_nonce_commitment DeserializeSigningCommitment(const std::string &serialized) const;
+    std::string SerializeSignatureShare(const secp256k1_frost_signature_share *signature) const;
+    secp256k1_frost_signature_share DeserializeSignatureShare(const std::string& serialized) const;
 
-    const keypair m_keypair;
-    nonce_pair m_nonce;
     bool m_valid_nonce;
+    secp256k1_context *m_frost_ctx;
+    secp256k1_frost_keypair *m_keypair;
+    secp256k1_frost_nonce *m_nonce;
+
 };
 
-class ThreeFBFTWalletImpl: public BitcoinRpcWallet, public RoastWallet
-{
-public:
-    ThreeFBFTWalletImpl(const itcoin::PbftConfig& conf, transport::BtcClient& bitcoind);
-    ~ThreeFBFTWalletImpl();
-
-
-    CBlock FinalizeBlock(const CBlock&, const std::string, const std::vector<std::string>) const override;
-    std::string GetPreSignatureShare() override;
-    std::string GetSignatureShare(std::vector<uint32_t> signers, std::string pre_signature, const CBlock& block) override;
-
-    // This concrete method just calls RoastWallet::GetPreSignatureShare()
-    std::string GetBlockSignature(const CBlock&);
-    // This concrete method just calls RoastWallet::FinalizeBlock()
-    CBlock FinalizeBlock(const CBlock&, const std::vector<std::string>) const;
-    // This concrete method just calls BitcoinRpcWallet::AppendSignature()
-    void AppendSignature(itcoin::pbft::messages::Message &message) const;
-    // This concrete method just calls BitcoinRpcWallet::VerifySignature()
-    bool VerifySignature(const itcoin::pbft::messages::Message &message) const;
-
-private:
-    keypair InitializeKeyPair(const itcoin::PbftConfig &conf, transport::BtcClient &bitcoind) const;
-    std::vector<std::string> SplitPreSignatures(std::string serializedList) const;
-    signature AggregateSignatureShares(const uint256 &message_digest,
-                                       const std::vector<std::string> &signature_shares) const;
-    uint256 TaprootSignatureHash(const CMutableTransaction &spendTx, const CMutableTransaction &toSpendTx) const;
-
-    std::map<uint32_t, PublicCommitmentDerivation> m_commitments_derivations;
-    std::vector<std::vector<uint32_t>> m_signers_combinations;
-    PrivateNonceDerivation m_nonce_derivation_;
-    const keypair m_keypair;
-
-    static const int kBindingCommitmentChildIndex = 0;
-    static const int kHidingCommitmentChildIndex = 1;
-    nonce_pair DeriveNoncePair(const uint256 &hash_out);
-
-    signing_commitment DeriveParticipantCommitments(const uint256 &hash_out, const uint32_t &participant_index) const;
-    int RetrieveSignerCombination(const std::vector<std::string> &signature_shares) const;
-
-    std::string ExtractSignatureShareByCombinationIndex(const std::string &_signature_share, const std::string &delimiter,
-                                                        const uint32_t combination_index) const;
-
-    bool ParticipantInCombination(int combination_index, uint32_t participant_index) const;
-};
 
 }
 }

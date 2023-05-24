@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include <boost/test/unit_test.hpp>
 #include <boost/test/data/test_case.hpp>
 
@@ -7,7 +10,7 @@
 #include <psbt.h>
 #include <util/strencodings.h>
 
-#include "fixtures.h"
+#include "fixtures/fixtures.h"
 
 namespace utf = boost::unit_test;
 namespace bdata = boost::unit_test::data;

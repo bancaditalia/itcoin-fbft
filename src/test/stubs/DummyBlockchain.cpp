@@ -1,10 +1,13 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "stubs.h"
 
 #include <boost/log/trivial.hpp>
 
-#include "../../PbftConfig.h"
+#include "config/FbftConfig.h"
 
-namespace msgs = itcoin::pbft::messages;
+namespace msgs = itcoin::fbft::messages;
 
 using namespace std;
 using namespace itcoin::blockchain;
@@ -13,7 +16,7 @@ using namespace itcoin::network;
 namespace itcoin {
 namespace test {
 
-DummyBlockchain::DummyBlockchain(const itcoin::PbftConfig& conf):
+DummyBlockchain::DummyBlockchain(const itcoin::FbftConfig& conf):
 Blockchain(conf)
 {
   Init();

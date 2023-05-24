@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "wallet.h"
 
 #include <base58.h>
@@ -5,34 +8,40 @@
 #include <boost/log/trivial.hpp>
 #include <script/interpreter.h>
 
-#include "../PbftConfig.h"
-#include "../block/extract.h"
-#include "../block/psbt_utils.h"
-#include "../pbft/messages/messages.h"
+#include "config/FbftConfig.h"
+#include "../blockchain/extract.h"
+#include "../fbft/messages/messages.h"
 #include "../transport/btcclient.h"
-#include "../frost/frost_helpers.hpp"
+
+#include <secp256k1/include/secp256k1.h>
+#include <secp256k1/include/secp256k1_frost.h>
+#include <cstring>
+#include <sys/random.h>
 
 #define DELIM_PRESIG "+"
 
-using Message = itcoin::pbft::messages::Message;
+using Message = itcoin::fbft::messages::Message;
 
 namespace itcoin::wallet {
+    static std::string const DELIM_SIG = "::";
+    static std::string const DELIM_COMMITMENTS = "::";
 
-    RoastWalletImpl::RoastWalletImpl(const itcoin::PbftConfig &conf, transport::BtcClient &bitcoind)
+    RoastWalletImpl::RoastWalletImpl(const itcoin::FbftConfig &conf, transport::BtcClient &bitcoind)
         : Wallet(conf), BitcoinRpcWallet(conf, bitcoind), RoastWallet(conf),
-          m_keypair(InitializeKeyPair(conf, bitcoind)) {
+        m_keypair(InitializeKeyPair(conf, bitcoind)) {
       BOOST_LOG_TRIVIAL(debug) << boost::str(
             boost::format("R%1% RoastWalletImpl will sign using pubkey address %2%.") % m_conf.id() % m_pubkey_address);
 
+      m_frost_ctx = secp256k1_context_create(SECP256K1_CONTEXT_SIGN | SECP256K1_CONTEXT_VERIFY);
       m_valid_nonce = false;
-      m_nonce = {};
+      m_nonce = NULL;
 
       // Declare the dynamic wallets predicates
       PlCall("assertz", PlTermv(PlCompound(
           "(roast_crypto_pre_sig_aggregate(Replica_id, Pre_signature_shares, Pre_signature) :- roast_crypto_pre_sig_aggregate_impl(Replica_id, Pre_signature_shares, Pre_signature))")));
     }
 
-    keypair RoastWalletImpl::InitializeKeyPair(const itcoin::PbftConfig &conf, transport::BtcClient &bitcoind) const {
+    secp256k1_frost_keypair *RoastWalletImpl::InitializeKeyPair(const itcoin::FbftConfig &conf, transport::BtcClient &bitcoind) const {
       auto pubkey_address = conf.replica_set_v().at(conf.id()).p2pkh();
       std::string b58_privkey = bitcoind.dumpprivkey(pubkey_address);
       std::vector<unsigned char> raw_privkey;
@@ -46,15 +55,27 @@ namespace itcoin::wallet {
       // remove first byte that encodes if the private key is for main-net (90) or testnet (ef)
       raw_privkey.erase(raw_privkey.begin(), raw_privkey.begin() + 1);
 
-      itcoin_secp256k1_scalar privkey;
-      convert_b32_to_scalar(raw_privkey.data(), &privkey);
+      secp256k1_frost_keypair *kp;
+      kp = (secp256k1_frost_keypair*) malloc(sizeof(secp256k1_frost_keypair));
+      memcpy(kp->secret, raw_privkey.data(), 32);
       BOOST_LOG_TRIVIAL(debug) << "Private key correctly parsed!";
 
-      keypair kp = {};
-      kp.index = m_conf.id() + 1;
-      kp.secret = privkey;
-      kp.public_key = deserialize_public_key(m_conf.replica_set_v().at(m_conf.id()).pubkey());
-      kp.group_public_key = deserialize_public_key(m_conf.group_public_key());
+      {
+        unsigned char raw_pubkey[33] = {0};
+        unsigned char raw_group_pubkey[33] = {0};
+
+        this->DeserializePublicKey(m_conf.replica_set_v().at(m_conf.id()).pubkey(), raw_pubkey);
+        this->DeserializePublicKey(m_conf.group_public_key(), raw_group_pubkey);
+
+        if (secp256k1_frost_pubkey_load(&kp->public_keys,
+                                        m_conf.id() + 1, m_conf.cluster_size(),
+                                        raw_pubkey,
+                                        raw_group_pubkey) == 0) {
+            std::string errorMsg = boost::str(boost::format("R%1% error while loading pubkey.") % m_conf.id());
+            BOOST_LOG_TRIVIAL(error) << errorMsg;
+            throw std::runtime_error(errorMsg);
+        }
+      }
 
       BOOST_LOG_TRIVIAL(debug) << boost::str(
             boost::format("R%1% has correctly initialized its keypair.") % m_conf.id());
@@ -62,32 +83,110 @@ namespace itcoin::wallet {
       return kp;
     }
 
+    void RoastWalletImpl::DeserializePublicKey(std::string serialized_public_key, unsigned char *output33) const
+    {
+        if (serialized_public_key.empty())
+        {
+            throw std::runtime_error("Unable to deserialize an empty public key.");
+        }
+        // If the public key is represented by 32bytes, then it implicitly encodes a positive Y-coord
+        if (serialized_public_key.length() == 2 * (33 - 1))
+        {
+            serialized_public_key = "02" + serialized_public_key;
+        }
+        this->HexToCharArray(serialized_public_key, output33);
+    }
+
+    void RoastWalletImpl::HexToCharArray(const std::string str, unsigned char *retval) const
+    {
+        int d;
+        for (uint32_t i = 0, p = 0; p < str.length(); p = p + 2, i++)
+        {
+            sscanf(&str[p], "%02x", &d);
+            retval[i] = (unsigned char)d;
+        }
+    }
+
+    std::string RoastWalletImpl::CharArrayToHex(const unsigned char *bytearray, size_t size) const
+    {
+        int i = 0;
+        char buffer[2 * size];
+        for (uint32_t idx = 0; idx < size; idx++)
+        {
+            sprintf(buffer + i, "%02x", bytearray[idx]);
+            i += 2;
+        }
+        std::string _str(buffer);
+        return _str;
+    }
+
+    void RoastWalletImpl::FillRandom(unsigned char *data, size_t size) {
+        // simplified from https://github.com/bitcoin/bitcoin/blob/747cdf1d652d8587e9f2e3d4436c3ecdbf56d0a5/src/secp256k1/examples/random.h
+        /* If `getrandom(2)` is not available you should fall back to /dev/urandom */
+        ssize_t res = getrandom(data, size, 0);
+        if (res < 0 || (size_t) res != size) {
+            throw std::runtime_error("Failed to generate seed");
+        }
+    }
+
+    std::string RoastWalletImpl::SerializeSigningCommitment(const secp256k1_frost_nonce_commitment *commitments) const
+    {
+        // Serialize to string format: index::binding_commitment::hiding_commitment
+        return std::to_string(commitments->index)
+               + DELIM_COMMITMENTS + this->CharArrayToHex(commitments->binding, 64)
+               + DELIM_COMMITMENTS + this->CharArrayToHex(commitments->hiding, 64);
+    }
+    secp256k1_frost_nonce_commitment RoastWalletImpl::DeserializeSigningCommitment(const std::string &serialized) const
+    {
+        // Expected string: index::binding_commitment::hiding_commitment
+        auto end = serialized.find(DELIM_COMMITMENTS);
+        std::string raw_index = serialized.substr(0, end);
+
+        auto start = end + DELIM_COMMITMENTS.length();
+        end = serialized.find(DELIM_COMMITMENTS, start);
+        std::string raw_binding_commitment = serialized.substr(start, end);
+
+        start = end + DELIM_COMMITMENTS.length();
+        std::string raw_hiding_commitment = serialized.substr(start, serialized.length());
+
+        // Parse raw elements for creating signing_commitment
+        secp256k1_frost_nonce_commitment sc = {};
+        sc.index = static_cast<uint32_t>(std::stoul(raw_index));
+        this->HexToCharArray(raw_binding_commitment, sc.binding);
+        this->HexToCharArray(raw_hiding_commitment, sc.hiding);
+
+        return sc;
+    }
+
     std::string RoastWalletImpl::GetPreSignatureShare() {
       BOOST_LOG_TRIVIAL(debug) << "Generating nonces and returning commitments";
 
-      nonce_pair np = create_nonce();
-      if (m_valid_nonce) {
-        // TODO: should we throw an exception if m_nonces exists already?
-        // Can multiple signing request happen at the same time?
-        BOOST_LOG_TRIVIAL(warning) << "Replacing a valid nonce ";
-      }
-      m_nonce = np;
-      m_valid_nonce = true;
+        unsigned char binding_seed[32] = {0};
+        unsigned char hiding_seed[32] = {0};
+        this->FillRandom(binding_seed, 32);
+        this->FillRandom(hiding_seed, 32);
 
-      signing_commitment sc;
-      sc.index = m_conf.id() + 1;
-      sc.hiding_commitment = np.hiding_nonce.commitment;
-      sc.binding_commitment = np.binding_nonce.commitment;
+        if (m_valid_nonce) {
+            // TODO: should we throw an exception if m_nonces exists already?
+            // Can multiple signing request happen at the same time?
+            BOOST_LOG_TRIVIAL(warning) << "Replacing a valid nonce ";
+        }
+        if (m_nonce != NULL) {
+            secp256k1_frost_nonce_destroy(m_nonce);
+        }
+        m_nonce = secp256k1_frost_nonce_create(m_frost_ctx, m_keypair,
+                                     binding_seed, hiding_seed);
+        m_valid_nonce = true;
 
-      std::string serialized_commitments = serialize_signing_commitment(sc);
+        std::string serialized_commitments = this->SerializeSigningCommitment(&m_nonce->commitments);
 
-      BOOST_LOG_TRIVIAL(debug) << boost::str(
-            boost::format("R%1% Generated presignature: %2%.") % m_conf.id() % serialized_commitments);
+          BOOST_LOG_TRIVIAL(debug) << boost::str(
+                boost::format("R%1% Generated presignature: %2%.") % m_conf.id() % serialized_commitments);
 
-      return serialized_commitments;
+        return serialized_commitments;
     }
 
-    std::vector<std::string> RoastWalletImpl::SplitPreSignatures(std::string serializedList) const {
+   std::vector<std::string> RoastWalletImpl::SplitPreSignatures(std::string serializedList) const {
       std::string delimiter{DELIM_PRESIG};
       uint32_t start = 0;
       uint32_t end = 0;
@@ -119,37 +218,39 @@ namespace itcoin::wallet {
         throw std::runtime_error(errorMsg);
       }
 
-      // Step 1: retrieve: keypair, nonces, commitments;
-      std::vector<signing_commitment> signing_commitments;
-      std::vector<nonce_pair> my_signing_nonces;
+      // Step 1: retrieve: keypair, nonce, commitments;
+      std::vector<secp256k1_frost_nonce_commitment> signing_commitments;
       std::vector<std::string> raw_presignatures = this->SplitPreSignatures(pre_signatures);
 
       for (auto &raw_presignature: raw_presignatures) {
-        signing_commitment signing_commitment = deserialize_signing_commitment(raw_presignature);
-        signing_commitments.push_back(signing_commitment);
+          secp256k1_frost_nonce_commitment cmt = this->DeserializeSigningCommitment(raw_presignature);
+          signing_commitments.push_back(cmt);
       }
-
-      // FIXME:
-      my_signing_nonces.push_back(m_nonce);
 
       // Step 2: Get Signature Hash
       CBlock _block(block);
-      auto [spendTx, toSpendTx] = itcoin::block::signetTxs(_block, m_conf.getSignetChallenge());
-      uint256 hash_out = TaprootSignatureHash(spendTx, toSpendTx);
+      auto [spendTx, toSpendTx] = itcoin::blockchain::signetTxs(_block, m_conf.getSignetChallenge());
+      uint256 hash_out = this->TaprootSignatureHash(spendTx, toSpendTx);
 
       // Step 3: Sign
       std::string block_as_string = hash_out.GetHex();
       BOOST_LOG_TRIVIAL(debug) << boost::str(boost::format("R%1% block hash: %2%") % m_conf.id() % block_as_string);
 
-      signing_response res = sign(m_keypair,
-                                  signing_commitments, my_signing_nonces,
-                                  hash_out.begin(), 32);
+      secp256k1_frost_signature_share signature_share;
+      if (secp256k1_frost_sign(&signature_share, hash_out.begin(),
+                               signing_commitments.size(),
+                               m_keypair, m_nonce,
+                               signing_commitments.data()) == 0){
+          std::string errorMsg = boost::str(boost::format("R%1% error while signing message.") % m_conf.id());
+          BOOST_LOG_TRIVIAL(error) << errorMsg;
+          throw std::runtime_error(errorMsg);
+      }
 
       // Step 4: invalidate nonce
       m_valid_nonce = false;
 
       // Step 5: serialize signature
-      std::string serialized_res = serialize_signing_response(res);
+      std::string serialized_res = this->SerializeSignatureShare(&signature_share);
 
       BOOST_LOG_TRIVIAL(debug) << boost::str(
             boost::format("R%1% Generated signature share: %2%.") % m_conf.id() % serialized_res);
@@ -157,60 +258,114 @@ namespace itcoin::wallet {
       return serialized_res;
     }
 
-    signature RoastWalletImpl::AggregateSignatureShares(const unsigned char *message,
-                                                        const size_t message_size,
+    std::string RoastWalletImpl::SerializeSignatureShare(const secp256k1_frost_signature_share *signature) const
+    {
+        // Serialize to string format: index::signature
+        unsigned char response_bytes[32];
+        return std::to_string(signature->index) + DELIM_SIG + this->CharArrayToHex(signature->response, 32);
+    }
+
+    secp256k1_frost_signature_share RoastWalletImpl::DeserializeSignatureShare(const std::string& serialized) const
+    {
+        secp256k1_frost_signature_share res;
+
+        // Expected: index::signature
+        auto end = serialized.find(DELIM_SIG);
+        std::string raw_participant_index = serialized.substr(0, end);
+        res.index =  static_cast<uint32_t>(std::stoul(raw_participant_index));
+
+        auto start = end + DELIM_SIG.length();
+        std::string raw_response = serialized.substr(start, serialized.length());
+
+        this->HexToCharArray(raw_response, res.response);
+        return res;
+    }
+
+    void RoastWalletImpl::AggregateSignatureShares(unsigned char *signature64,
+                                                          const unsigned char *message32,
                                                         const std::string &pre_signatures,
                                                         const std::vector<std::string> &signature_shares) const {
       BOOST_LOG_TRIVIAL(debug) << boost::str(boost::format("R%1% is aggregating signature shares") % m_conf.id());
 
       // Step 1: Retrieve signature shares (signing_response)
-      std::vector<signing_response> all_responses;
+        std::vector<uint32_t> signer_indexes;
+        std::vector<secp256k1_frost_signature_share> all_responses;
       for (auto &signature: signature_shares) {
-        signing_response response = deserialize_signing_response(signature);
+        secp256k1_frost_signature_share response = this->DeserializeSignatureShare(signature);
+        signer_indexes.push_back(response.index);
         all_responses.push_back(response);
       }
 
       // Step 2: Retrieve signing commitments
-      std::vector<signing_commitment> signing_commitments;
+      std::vector<secp256k1_frost_nonce_commitment> signing_commitments;
       std::vector<std::string> serializedPreSignatures = this->SplitPreSignatures(pre_signatures);
       for (auto &serializedPreSignature: serializedPreSignatures) {
-        signing_commitment signing_commitment = deserialize_signing_commitment(serializedPreSignature);
-        signing_commitments.push_back(signing_commitment);
+          secp256k1_frost_nonce_commitment commitment = this->DeserializeSigningCommitment(serializedPreSignature);
+          signing_commitments.push_back(commitment);
       }
 
       // Step 3: Retrieve public keys of other participants
-      std::vector<participant_pubkeys> participant_pubkeys_vec;
+      std::vector<secp256k1_frost_pubkey> participant_pubkeys_vec;
+      unsigned char raw_group_pubkey[33];
+      this->DeserializePublicKey(m_conf.group_public_key(), raw_group_pubkey);
       for (auto &rep_conf: m_conf.replica_set_v()) {
-        participant_pubkeys pubkey;
-        pubkey.index = rep_conf.id() + 1;
-        pubkey.public_key = deserialize_public_key(rep_conf.pubkey());
-        pubkey.group_public_key = m_keypair.group_public_key;
+        bool found = false;
+        unsigned int replica_index = rep_conf.id() + 1;
+        for ( auto& si : signer_indexes ) {
+            if (si == replica_index) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            continue;
+        }
+        unsigned char raw_pubkey[33] = {0};
+        secp256k1_frost_pubkey pubkey;
+        this->DeserializePublicKey(rep_conf.pubkey(), raw_pubkey);
+        if (secp256k1_frost_pubkey_load(&pubkey,
+                                        replica_index, m_conf.cluster_size(),
+                                        raw_pubkey, raw_group_pubkey) == 0) {
+            std::string errorMsg = boost::str(boost::format("R%1% error while loading pubkey of replica R%2%.")
+                    % m_conf.id() % replica_index);
+            BOOST_LOG_TRIVIAL(error) << errorMsg;
+            throw std::runtime_error(errorMsg);
+        }
         participant_pubkeys_vec.push_back(pubkey);
       }
       BOOST_LOG_TRIVIAL(debug) << boost::str(
             boost::format("R%1% has correctly retrieved signature shares, presignatures, and participant public keys") %
             m_conf.id());
 
-      try {
         // Step 4: Aggregate signature shares
-        signature signature = aggregate_helper(message, message_size,
-                                               signing_commitments,
-                                               all_responses,
-                                               participant_pubkeys_vec);
+        if (secp256k1_frost_aggregate(
+                  m_frost_ctx,
+                  signature64,
+                  message32,
+                  m_keypair,
+                  participant_pubkeys_vec.data(),
+                  signing_commitments.data(),
+                  all_responses.data(),
+                  all_responses.size()) == 0) {
+              std::string errorMsg = boost::str(boost::format("R%1% error aggregating signature.") % m_conf.id());
+              BOOST_LOG_TRIVIAL(error) << errorMsg;
+              throw std::runtime_error(errorMsg);
+        }
         BOOST_LOG_TRIVIAL(debug) << boost::str(
               boost::format("R%1% has correctly aggregating the signature and is going to validate it") % m_conf.id());
 
         // Additional Step 5: Validate aggregated signature locally (not needed)
-        validate(message, 32, signature, m_keypair.group_public_key);
+        if (secp256k1_frost_verify(m_frost_ctx,
+                                        signature64,
+                                        message32,
+                                        &m_keypair->public_keys) == 0) {
+            std::string errorMsg = boost::str(boost::format("R%1% error while validating aggregated signature.") % m_conf.id());
+            BOOST_LOG_TRIVIAL(error) << errorMsg;
+            throw std::runtime_error(errorMsg);
+        }
+
         BOOST_LOG_TRIVIAL(debug)
           << boost::str(boost::format("R%1% has correctly validated the aggregated signature") % m_conf.id());
-
-        return signature;
-      } catch (std::runtime_error const& e) {
-        BOOST_LOG_TRIVIAL(error)
-          << boost::str(boost::format("R%1% Error while aggregating signature: %2%") % m_conf.id() % e.what());
-        throw e;
-      }
     }
 
     // SignAgg
@@ -222,21 +377,24 @@ namespace itcoin::wallet {
 
       // Step 1: Create digest signed by participants
       CBlock _block(block);
-      auto [spendTx, toSpendTx] = itcoin::block::signetTxs(_block, m_conf.getSignetChallenge());
+      auto [spendTx, toSpendTx] = itcoin::blockchain::signetTxs(_block, m_conf.getSignetChallenge());
       uint256 hash_out = TaprootSignatureHash(spendTx, toSpendTx);
 
       // Step 2: Aggregate signature shares
       std::string block_as_string = hash_out.GetHex();
       BOOST_LOG_TRIVIAL(debug) << boost::str(
             boost::format("R%1% Aggregating signature shares on block: %2%.") % m_conf.id() % block_as_string);
-      signature signature = this->AggregateSignatureShares(hash_out.begin(), 32, pre_signatures, signature_shares);
+      unsigned char signature64[64];
+      this->AggregateSignatureShares(signature64, hash_out.begin(), pre_signatures, signature_shares);
+      std::string serialized_signature = this->CharArrayToHex(signature64, 64);
 
-      // Step 3: Derive the signet solution
+        // Step 3: Derive the signet solution
       unsigned char serialized_signature_buf[3 + 32 + 32];
       serialized_signature_buf[0] = OP_0;
       serialized_signature_buf[1] = 0x01; // Serialize the number of elements in the vector (1 item)
       serialized_signature_buf[2] = 0x40; // Serialize the item[0] length (64 bytes)
-      std::string serialized_signature = serialize_signature(signature, true, &(serialized_signature_buf[3]));
+      memcpy(&(serialized_signature_buf[3]), signature64, 64);
+
       BOOST_LOG_TRIVIAL(debug) << boost::str(
             boost::format("R%1% Adding signature %2% to block: %3%.") % m_conf.id() % serialized_signature %
             block_as_string);
@@ -246,7 +404,7 @@ namespace itcoin::wallet {
 
       // Step 5: Append the signet solution
       std::vector<unsigned char> serialized_signatureBytes{serialized_signature_buf, serialized_signature_buf + 3 + 64};
-      block::appendSignetSolution(&_block, serialized_signatureBytes);
+      itcoin::blockchain::appendSignetSolution(&_block, serialized_signatureBytes);
 
       BOOST_LOG_TRIVIAL(debug) << boost::str(boost::format("R%1% Block finalized.") % m_conf.id());
       return _block;
@@ -271,23 +429,14 @@ namespace itcoin::wallet {
       return hash_out;
     }
 
-    void RoastWalletImpl::AppendSignature(itcoin::pbft::messages::Message &message) const {
-      BitcoinRpcWallet::AppendSignature(message);
+    RoastWalletImpl::~RoastWalletImpl() {
+        if (m_nonce != NULL) {
+            secp256k1_frost_nonce_destroy(m_nonce);
+        }
+        if (m_frost_ctx != NULL) {
+            secp256k1_context_destroy(m_frost_ctx);
+        }
     }
-
-    bool RoastWalletImpl::VerifySignature(const itcoin::pbft::messages::Message &message) const {
-      return BitcoinRpcWallet::VerifySignature(message);
-    }
-
-    CBlock RoastWalletImpl::FinalizeBlock(const CBlock &block, const std::vector<std::string> signatures) const {
-      return RoastWallet::FinalizeBlock(block, signatures);
-    }
-
-    std::string RoastWalletImpl::GetBlockSignature(const CBlock &block) {
-      return RoastWallet::GetBlockSignature(block);
-    }
-
-    RoastWalletImpl::~RoastWalletImpl() {}
 }
 
 // This is PreAggr

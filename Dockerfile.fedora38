@@ -1,0 +1,60 @@
+# Copyright (c) 2023 Bank of Italy
+# Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
+FROM fedora:38
+
+# toolchain deps
+RUN dnf install -y \
+    autoconf \
+    automake \
+    cmake \
+    g++ \
+    gcc \
+    git \
+    jq \
+    libtool \
+    pkg-config \
+    vim-common \
+    zlib-devel
+
+# build deps
+#
+# In Fedora, there are no "-devel" packages for the individual boost libraries.
+# This is an exception to the usual Fedora-style packaging. Thus, the only boost
+# package needed for satisfying the build requirements would be boost-devel,
+# which brings in a superset of what we need.
+#
+# The other boost-* packages listed here are kept just for documentation of what
+# would be the minimal set.
+RUN dnf install -y \
+    argtable-devel \
+    boost-devel \
+    boost-filesystem \
+    boost-log \
+    boost-program-options \
+    boost-test \
+    boost-thread \
+    libcurl-devel \
+    libdb-cxx-devel \
+    libevent-devel \
+    openssl-devel \
+    pl-devel \
+    sqlite-devel \
+    zeromq-devel
+
+RUN mkdir /itcoin-fbft
+
+WORKDIR /itcoin-fbft
+
+COPY . /itcoin-fbft
+
+RUN mkdir /itcoin-fbft/build
+
+WORKDIR /itcoin-fbft/build
+
+RUN cmake ..
+
+# Put itcoin-core in a dedicated layer.
+RUN make itcoin-core-libraries -j $(nproc --ignore=1)
+
+RUN make -j $(nproc --ignore=1)

@@ -1,16 +1,19 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include <boost/log/expressions.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/test/unit_test.hpp>
 
-#include "../pbft/messages/messages.h"
+#include "../fbft/messages/messages.h"
 
-#include "fixtures.h"
+#include "fixtures/fixtures.h"
 
 using namespace std;
 using namespace boost::unit_test;
-using namespace itcoin::pbft::messages;
+using namespace itcoin::fbft::messages;
 
-struct MessagesEncodingFixture: ReplicaStateFixture<> { MessagesEncodingFixture(): ReplicaStateFixture(itcoin::SIGNATURE_ALGO_TYPE::NAIVE,4,0,60) {} };
+struct MessagesEncodingFixture: ReplicaStateFixture { MessagesEncodingFixture(): ReplicaStateFixture(4,0,60) {} };
 
 BOOST_AUTO_TEST_SUITE(test_messages_encoding, *enabled())
 
@@ -25,8 +28,7 @@ BOOST_FIXTURE_TEST_CASE(test_messages_encoding_00, MessagesEncodingFixture)
   //
   {
   uint32_t sender_id = 3, v = 11, n = 17;
-  string block_signature =
-    m_wallets[sender_id]->GetBlockSignature(CBlock());
+  string block_signature = "Hello block signature";
   Commit msg = Commit(sender_id, v, n, block_signature);
 
   m_wallets[sender_id]->AppendSignature(msg);
@@ -41,7 +43,7 @@ BOOST_FIXTURE_TEST_CASE(test_messages_encoding_00, MessagesEncodingFixture)
   Commit typed_msg_built{ dynamic_cast<Commit&>(*msg_built) };
   BOOST_CHECK(typed_msg_built.view() == v);
   BOOST_CHECK(typed_msg_built.seq_number() == n);
-  BOOST_CHECK(typed_msg_built.block_signature() == msg.block_signature());
+  BOOST_CHECK(typed_msg_built.pre_signature() == msg.pre_signature());
   BOOST_CHECK(typed_msg_built.signature() == msg.signature());
   BOOST_CHECK(typed_msg_built.digest() == msg.digest());
   }

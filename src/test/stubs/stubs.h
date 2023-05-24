@@ -1,13 +1,16 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #ifndef ITCOIN_TEST_STUBS_STUBS_H
 #define ITCOIN_TEST_STUBS_STUBS_H
 
 #include <boost/log/trivial.hpp>
 
-#include "../../network/network.h"
 #include "../../blockchain/blockchain.h"
+#include "../../transport/network.h"
 #include "../../wallet/wallet.h"
 
-namespace messages=itcoin::pbft::messages;
+namespace messages=itcoin::fbft::messages;
 
 namespace blockchain = itcoin::blockchain;
 namespace network = itcoin::network;
@@ -28,7 +31,7 @@ class NetworkStub
 class DummyNetwork: public network::NetworkTransport, public NetworkStub
 {
   public:
-    DummyNetwork(const itcoin::PbftConfig& conf);
+    DummyNetwork(const itcoin::FbftConfig& conf);
     void BroadcastMessage(std::unique_ptr<messages::Message> p_msg);
     void SimulateReceiveMessages();
 
@@ -39,7 +42,7 @@ class DummyNetwork: public network::NetworkTransport, public NetworkStub
 class DummyBlockchain: public blockchain::Blockchain, public NetworkStub
 {
   public:
-    DummyBlockchain(const itcoin::PbftConfig& conf);
+    DummyBlockchain(const itcoin::FbftConfig& conf);
 
     void set_genesis_block_timestamp(double genesis_block_timestamp);
 
@@ -58,7 +61,7 @@ class DummyBlockchain: public blockchain::Blockchain, public NetworkStub
 class DummyWallet: public wallet::Wallet
 {
   public:
-    DummyWallet(const itcoin::PbftConfig& conf);
+    DummyWallet(const itcoin::FbftConfig& conf);
     void AppendSignature(messages::Message& message) const;
     bool VerifySignature(const messages::Message& message) const;
 
@@ -71,7 +74,7 @@ class DummyRoastWallet: public wallet::RoastWallet
   int state_i;
 
   public:
-    DummyRoastWallet(const itcoin::PbftConfig& conf);
+    DummyRoastWallet(const itcoin::FbftConfig& conf);
 
     void AppendSignature(messages::Message& message) const override;
     bool VerifySignature(const messages::Message& message) const override;

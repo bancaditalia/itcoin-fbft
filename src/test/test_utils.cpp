@@ -1,10 +1,13 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include <boost/test/unit_test.hpp>
 
 #include <boost/algorithm/hex.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/test/data/test_case.hpp>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 #include "boilerplate.h"
 
 using namespace boost::unit_test;
@@ -65,48 +68,6 @@ BOOST_DATA_TEST_CASE(
 
   BOOST_TEST(stringToHex(inputString) == expectedHex);
 } // test_stringToHex
-
-BOOST_DATA_TEST_CASE(
-  test_concatenateAndComputeHash,
-  bdata::make(vector<tuple<string, string, string>>{
-    { "",                    "",                    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", },
-    { "A",                   "",                    "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd", },
-    { "",                    "A",                   "559aead08264d5795d3909718cdd05abd49572e84fe55590eef31a88a08fdffd", },
-    { string("\x00", 1),     "",                    "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d", },
-    { "",                    string("\x00", 1),     "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d", },
-    { string("\x01", 1),     "",                    "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a", },
-    { "",                    string("\x01", 1),     "4bf5122f344554c53bde2ebb8cd2b7e3d1600ad631c385a5d7cce23c7785459a", },
-    { string("\x00", 1),     string("\x00", 1),     "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7", },
-    { string("\x00\x00", 2), "",                    "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7", },
-    { "",                    string("\x00\x00", 2), "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7", },
-    { "hello",               "",                    "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824", },
-    { "hel",                 "lo",                  "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824", },
-    { "hello",               "🥸",                  "38251e8670dfad8e88f3a63881e1a0c1e91170648bb26cf8300b8f5f17f79953", },
-    { "🥸",                  "hello",               "c6ebe1d2ad358fd30e720170d95a7216cf54c5eaf141d6d3c9f9ee049d1aadf0", },
-  }),
-  token1,
-  token2,
-  expectedHashHexString
-) {
-  using itcoin::utils::concatenateAndComputeHash;
-
-  std::string expectedHashBinary = boost::algorithm::unhex(expectedHashHexString);
-
-  BOOST_TEST(concatenateAndComputeHash(token1, token2) == expectedHashBinary);
-} // test_concatenateAndComputeHash
-
-BOOST_DATA_TEST_CASE(
-  test_computeHash,
-  bdata::make(STRING_2_HASH),
-  inputString,
-  expectedHashHexString
-) {
-  using itcoin::utils::computeHash;
-
-  std::string expectedHashBinary = boost::algorithm::unhex(expectedHashHexString);
-
-  BOOST_TEST(computeHash(inputString) == expectedHashBinary);
-} // test_computeHash
 
 BOOST_DATA_TEST_CASE(
   test_string2byteVector,

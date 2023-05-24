@@ -16,9 +16,9 @@ from pathlib import Path
 CUR_PATH = Path(inspect.getfile(inspect.currentframe())).parent  # type: ignore
 ROOT_DIR = Path(CUR_PATH, "..").resolve().absolute()
 
-THIRD_PARTY_DIR = ROOT_DIR / "src" / "thirdparty"
+THIRD_PARTY_DIR = ROOT_DIR / "src" / "grind"
 
-BITCOIN_CORE_BITCOIN_UTIL_CPP_URL = "https://raw.githubusercontent.com/bitcoin/bitcoin/master/src/bitcoin-util.cpp"
+BITCOIN_CORE_BITCOIN_UTIL_CPP_URL = "https://raw.githubusercontent.com/bitcoin/bitcoin/23.x/src/bitcoin-util.cpp"
 THIRD_PARTY_GRIND_CPP = THIRD_PARTY_DIR / "grind.cpp"
 
 

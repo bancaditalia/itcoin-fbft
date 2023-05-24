@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
-project(itcoin-pbft
+# Copyright (c) 2023 Bank of Italy
+# Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
+cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+project(itcoin-fbft
     LANGUAGES C CXX
-    HOMEPAGE_URL https://github.com/bancaditalia/itcoin-pbft.git
-    DESCRIPTION "A prototype PBFT implementation for itCoin."
+    HOMEPAGE_URL https://github.com/bancaditalia/itcoin-fbft.git
+    DESCRIPTION "A prototype FBFT implementation for itcoin"
 )
 set(PROJECT_VERSION "0.1.0")
 set(${PROJECT_NAME}_VERSION ${PROJECT_VERSION})
@@ -43,25 +46,6 @@ if(DEFINED ITCOIN_CORE_SRC_DIR)
     endif()
 endif()
 
-if("${ITCOIN_SECP256K1_SRC_DIR}" STREQUAL "")
-    # if ITCOIN_SECP256K1_SRC_DIR was not given on the command line, or its value is
-    # an empty string, let's delete it from cache, so that the default behaviour
-    # of downloading the repo kicks in.
-    unset(ITCOIN_SECP256K1_SRC_DIR CACHE)
-endif()
-
-if(DEFINED ITCOIN_SECP256K1_SRC_DIR)
-    # if we arrive here, we are sure that ITCOIN_SECP256K1_SRC_DIR is present and not
-    # empty.
-    #
-    # If ITCOIN_SECP256K1_SRC_DIR is a relative path, it will be interpreted relative
-    # to the "build" directory.
-    get_filename_component(ITCOIN_SECP256K1_SRC_DIR "${ITCOIN_SECP256K1_SRC_DIR}" REALPATH BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-    if(NOT IS_DIRECTORY "${ITCOIN_SECP256K1_SRC_DIR}")
-        message(FATAL_ERROR "-- ITCOIN_SECP256K1_SRC_DIR points to '${ITCOIN_SECP256K1_SRC_DIR}', which is not a directory")
-    endif()
-endif()
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -82,7 +66,7 @@ if(PROFILE)
 endif()
 
 
-add_definitions(-DITCOIN_PBFT_VERSION="${PROJECT_VERSION}")
+add_definitions(-DITCOIN_FBFT_VERSION="${PROJECT_VERSION}")
 # make ROOT_DIR available as preprocessor definition
 add_definitions(-DROOT_DIR="${ROOT_DIR}")
 
@@ -129,12 +113,30 @@ set(CMAKE_MODULE_PATH
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-find_package(SQLite3 REQUIRED 3.31.0)
 find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(argtable REQUIRED)
 
+#
+# Add third party dependencies
+#
+
 add_subdirectory(thirdparty)
+
+#
+# Generated files
+#
+
+set(GENERATED_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/generated-include-dir)
+set(GENERATED_OUTPUT_DIR ${GENERATED_INCLUDE_DIR}/generated)
+
 add_subdirectory(specs)
+add_subdirectory(engine)
+
+add_custom_target (generated_src DEPENDS generated_specs generated_engine)
+
+#
+# Cpp src files
+#
+
 add_subdirectory(src)
-add_subdirectory(apps)

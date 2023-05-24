@@ -90,7 +90,7 @@ for ((i = 0; i < "${TOT_NODES}"; i++)); do
     # For example, if TOT_NODES = 4, then ID will be "00", "01", "02", "03"
     ID=$(printf "%02d" "${i}")
 
-    rm -f  "${MYDIR}/node${ID}/miner.pbft.db"
+    rm -f  "${MYDIR}/node${ID}/miner.fbft.db"
     rm -f  "${MYDIR}/node${ID}/signet/.lock"
     rm -f  "${MYDIR}/node${ID}/signet/debug.log"
     rm -rf "${MYDIR}/node${ID}/signet/blocks"

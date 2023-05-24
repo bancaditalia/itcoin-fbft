@@ -1,3 +1,6 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "zcomm.h"
 
 #include <csignal>
@@ -6,7 +9,7 @@
 #include <boost/log/trivial.hpp>
 #include <boost/endian/conversion.hpp>
 
-#include "../pbft/messages/messages.h"
+#include "../fbft/messages/messages.h"
 
 namespace{
   static volatile std::sig_atomic_t s_interrupted = 0;
@@ -86,7 +89,7 @@ std::optional<std::tuple<std::string, int32_t, uint32_t>> decode_itcoinblock_pay
   return {{hash_hex_string, block_height, block_time}};
 } // decode_itcoinblock_payload()
 
-ZComm::ZComm(const itcoin::PbftConfig& conf):
+ZComm::ZComm(const itcoin::FbftConfig& conf):
     NetworkTransport{conf},
     ctx{std::make_unique<zmq::context_t>()},
     my_group{std::string{"replica" + std::to_string(conf.id())}},
@@ -309,7 +312,7 @@ int ZComm::run_forever()
   return EXIT_SUCCESS;
 } // ZComm::run_forever()
 
-void ZComm::BroadcastMessage(std::unique_ptr<pbft::messages::Message> p_msg)
+void ZComm::BroadcastMessage(std::unique_ptr<fbft::messages::Message> p_msg)
 {
   this->broadcast(p_msg->ToBinBuffer());
 } // ZComm::BroadcastMessage()

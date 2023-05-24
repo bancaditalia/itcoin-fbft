@@ -4,10 +4,6 @@
   "genesis_block_timestamp" : 1598918400,
   "target_block_time": 60,
 
-  "signature_algorithm": "THREEFBFT",
-
-  "test_rpc_port": 147852,
-
   /*
    * If this value is not null, the replica will also broadcast its messages to
    * this additional endpoint.
@@ -19,7 +15,7 @@
    */
   "sniffer_dish_connection_string": "tcp://127.0.0.1:12330",
 
-  "pbft_replica_set": [
+  "fbft_replica_set": [
     {
       "host": "127.0.0.1",
       "port": 12340,

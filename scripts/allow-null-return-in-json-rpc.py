@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Post-processing of the jsonrpcstup output.
+Post-processing of the jsonrpcstub output.
 
 The purpose of this script is to post-process the output of 'jsonrpcstub' due to
 a limitation of the specification language of jsonrpcstub. The specification
@@ -16,13 +16,27 @@ This script must be called right after the generation of the JSON RPC client
 stub.
 
 """
+import argparse
 import re
 from pathlib import Path
+
 
 SCRIPTS_DIRECTORY = Path(__file__).parent.resolve()
 ROOT_DIRECTORY = SCRIPTS_DIRECTORY.parent
 
-BITCOIN_CLIENT_STUB_FILE = ROOT_DIRECTORY / "build" / "specs" / "generated-outputs" / "generated" / "bitcoin_jsonrpc" / "BitcoinClientStub.h"
+BITCOIN_CLIENT_STUB_FILE_SUFFIX = (
+    Path("generated-include-dir")
+    / "generated"
+    / "bitcoin_jsonrpc"
+    / "BitcoinClientStub.h"
+)
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse CLI arguments."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--build-dir", type=str, default=str(ROOT_DIRECTORY / "build"))
+    return parser.parse_args()
 
 
 def allow_null_return_in_json_rpc(stub_file: Path, rpc_method_name: str) -> None:
@@ -36,8 +50,8 @@ def allow_null_return_in_json_rpc(stub_file: Path, rpc_method_name: str) -> None
     :return: None
     """
     old_content = stub_file.read_text()
-    to_replace  = f"this->CallMethod\(\"{rpc_method_name}\",p\);\n            if \(result.isObject\(\)\)"
-    replacement = f"this->CallMethod(\"{rpc_method_name}\",p);\n            if (result.isObject() or result.isNull())"
+    to_replace = f'this->CallMethod\("{rpc_method_name}",p\);\n            if \(result.isObject\(\)\)'
+    replacement = f'this->CallMethod("{rpc_method_name}",p);\n            if (result.isObject() or result.isNull())'
     new_content = re.sub(to_replace, replacement, old_content)
     stub_file.write_text(new_content)
 
@@ -63,6 +77,13 @@ def process_testblockvalidity(stub_file: Path) -> None:
 
 
 def main():
+    arguments = parse_args()
+
+    build_dir = Path(arguments.build_dir).resolve()
+    if not build_dir.exists():
+        raise ValueError(f"Provided build dir '{build_dir}' does not exist")
+
+    BITCOIN_CLIENT_STUB_FILE = build_dir / BITCOIN_CLIENT_STUB_FILE_SUFFIX
     if not BITCOIN_CLIENT_STUB_FILE.exists():
         raise ValueError(f"{BITCOIN_CLIENT_STUB_FILE} does not exist")
 
@@ -70,7 +91,7 @@ def main():
     process_testblockvalidity(BITCOIN_CLIENT_STUB_FILE)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         main()
     except Exception as e:

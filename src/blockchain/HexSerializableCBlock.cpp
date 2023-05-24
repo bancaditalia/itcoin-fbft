@@ -1,9 +1,12 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "blockchain.h"
 
 #include <streams.h>
 #include <version.h>
 
-#include "../utils.h"
+#include "../utils/utils.h"
 
 using namespace std;
 

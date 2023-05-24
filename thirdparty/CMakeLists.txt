@@ -1,37 +1,10 @@
+# Copyright (c) 2023 Bank of Italy
+# Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 # CMake build : third party
 
 #configure directories
 set (THIRDPARTY_MODULE_PATH "${PROJECT_SOURCE_DIR}/thirdparty")
-
-# ------------------------------------------------------------------------------
-# sha256
-# ------------------------------------------------------------------------------
-set (LIB_SHA256_NAME sha256)
-set (LIB_SHA256_NAME ${LIB_SHA256_NAME} PARENT_SCOPE)
-set (LIB_SHA256_MODULE_PATH ${THIRDPARTY_MODULE_PATH}/${LIB_SHA256_NAME})
-set (LIB_SHA256_INCLUDE_PATH ${LIB_SHA256_MODULE_PATH})
-set (LIB_SHA256_SOURCE_FILES "${LIB_SHA256_MODULE_PATH}/sha256.cpp")
-add_library (${LIB_SHA256_NAME} STATIC ${LIB_SHA256_SOURCE_FILES})
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-# incbin
-# ------------------------------------------------------------------------------
-set (LIB_INCBIN_NAME incbin)
-set (LIB_INCBIN_NAME ${LIB_INCBIN_NAME} PARENT_SCOPE)
-set (LIB_INCBIN_INCLUDE_PATH ${THIRDPARTY_MODULE_PATH}/${LIB_INCBIN_NAME})
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-# sqlite_modern_cpp
-# ------------------------------------------------------------------------------
-set (LIB_SQLITE_MODERN_CPP_NAME sqlite_modern_cpp)
-set (LIB_SQLITE_MODERN_CPP_NAME ${LIB_SQLITE_MODERN_CPP_NAME} PARENT_SCOPE)
-set (LIB_SQLITE_MODERN_CPP_INCLUDE_PATH ${THIRDPARTY_MODULE_PATH}/${LIB_SQLITE_MODERN_CPP_NAME})
-# ------------------------------------------------------------------------------
-
 
 # ------------------------------------------------------------------------------
 # libjson-cpp
@@ -57,9 +30,6 @@ set(JSON_CPP_LIBRARIES
 
 set(LIB_JSON_CPP_INCLUDE_DIR ${LIB_JSON_CPP_SOURCE_DIR}/include)
 include_directories(${LIB_JSON_CPP_INCLUDE_DIR})
-
-# ------------------------------------------------------------------------------
-
 
 # ------------------------------------------------------------------------------
 # libjson-rpc-cpp
@@ -94,7 +64,6 @@ set(LIB_JSON_RPC_CPP_INCLUDE_DIR ${LIB_JSON_RPC_CPP_SOURCE_DIR}/src/jsonrpccpp)
 include_directories(${LIB_JSON_RPC_CPP_INCLUDE_DIR})
 
 set(JSONRPCSTUB_BIN ${LIB_JSON_RPC_CPP_BINARY_DIR}/bin/jsonrpcstub PARENT_SCOPE)
-# ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 # libzmq
@@ -249,7 +218,7 @@ else()
     endif()
     if(NOT ITCOIN_CORE_GIT_URL)
         # default to SSH URL
-        set(ITCOIN_CORE_GIT_URL git@github.com:bancaditalia/itcoin-core)
+        set(ITCOIN_CORE_GIT_URL https://github.com/bancaditalia/itcoin-core)
     endif()
     message("itcoin-core project will be downloaded from ${ITCOIN_CORE_GIT_URL}, and revision ${ITCOIN_CORE_GIT_REV} will be checked out")
     set(ITCOIN_CORE_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/${EXTERNAL_PROJECT_ITCOIN_CORE_TARGET_NAME}-prefix/src/${EXTERNAL_PROJECT_ITCOIN_CORE_TARGET_NAME})
@@ -261,15 +230,15 @@ else()
 endif()
 
 set(ITCOIN_CORE_LIBRARIES
+    ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_common.a
+    ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_consensus.a
     ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_util.a
-    ${ITCOIN_CORE_SRC_DIR}/src/.libs/libunivalue.a
     ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_base.a
     ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_avx2.a
     ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_x86_shani.a
     ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_sse41.a
-    ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_consensus.a
+    ${ITCOIN_CORE_SRC_DIR}/src/.libs/libunivalue.a
     ${ITCOIN_CORE_SRC_DIR}/src/secp256k1/.libs/libsecp256k1.a
-    ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_common.a
 )
 
 list(JOIN ITCOIN_CORE_LIBRARIES " " ITCOIN_CORE_LIBRARIES_STR)
@@ -292,147 +261,53 @@ set(LIB_ITCOIN_CORE_INCLUDE_PATH
 add_custom_target(itcoin-core-libraries DEPENDS _itcoin-core-external-project ${ITCOIN_CORE_LIBRARIES})
 # ------------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------------
-# itcoin-secp256k1
-# ------------------------------------------------------------------------------
-set(EXTERNAL_PROJECT_ITCOIN_SECP256K1_TARGET_NAME itcoin-secp256k1)
-set(SECP256K1_PREFIX   ${USR_DIR})
-
-set(WIDEMUL_ALLOWED_SIZES int128 int64)
-set(WIDEMUL_SIZE int128 CACHE STRING "Which widemul implementation to use")
-set_property(CACHE WIDEMUL_SIZE PROPERTY STRINGS ${WIDEMUL_ALLOWED_SIZES})
-if(NOT WIDEMUL_SIZE IN_LIST WIDEMUL_ALLOWED_SIZES)
-    message(FATAL_ERROR "WIDEMUL_SIZE must be one of ${WIDEMUL_ALLOWED_SIZES}")
-endif()
-
-option(SCALAR_LOW "Use EXHAUSTIVE_TEST_ORDER (scalar_low)" OFF)
-if (SCALAR_LOW)
-    message("SCALAR_LOW enabled")
-    set(EXHAUSTIVE_TEST_ORDER "-DEXHAUSTIVE_TEST_ORDER")
-else()
-    message("SCALAR_LOW not enabled")
-    set(EXHAUSTIVE_TEST_ORDER "")
-endif()
-
-set(WIDEMUL_SIZE int128 CACHE STRING "Which widemul implementation to use")
-set_property(CACHE WIDEMUL_SIZE PROPERTY STRINGS ${WIDEMUL_ALLOWED_SIZES})
-if(NOT WIDEMUL_SIZE IN_LIST WIDEMUL_ALLOWED_SIZES)
-    message(FATAL_ERROR "WIDEMUL_SIZE must be one of ${WIDEMUL_ALLOWED_SIZES}")
-endif()
-
-if (ITCOIN_SECP256K1_SRC_DIR)
-    message("itcoin-secp256k1 project will be compiled from the following local directory: ${ITCOIN_SECP256K1_SRC_DIR}")
-    set(ITCOIN_SECP256K1_MODE_DEPENDENT_VARS
-            SOURCE_DIR "${ITCOIN_SECP256K1_SRC_DIR}"
-            )
-    set(SECP256K1_BASE_DIR ${ITCOIN_SECP256K1_SRC_DIR})
-else()
-    if(NOT ITCOIN_SECP256K1_GIT_REV)
-        # default itcoin-secp256k1 branch
-        set(ITCOIN_SECP256K1_GIT_REV library-renaming)
-    endif()
-    if(NOT ITCOIN_SECP256K1_GIT_URL)
-        # default to SSH URL
-        set(ITCOIN_SECP256K1_GIT_URL git@github.com:bancaditalia/itcoin-secp256k1)
-    endif()
-    message("itcoin-secp256k1 project will be downloaded from ${ITCOIN_SECP256K1_GIT_URL}, and revision ${ITCOIN_SECP256K1_GIT_REV} will be checked out")
-    set(ITCOIN_SECP256K1_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/${EXTERNAL_PROJECT_ITCOIN_SECP256K1_TARGET_NAME}-prefix/src/${EXTERNAL_PROJECT_ITCOIN_SECP256K1_TARGET_NAME})
-    set(ITCOIN_SECP256K1_MODE_DEPENDENT_VARS
-            GIT_REPOSITORY "${ITCOIN_SECP256K1_GIT_URL}"
-            GIT_TAG "${ITCOIN_SECP256K1_GIT_REV}"
-            GIT_PROGRESS true
-            )
-endif()
-
-ExternalProject_Add(${EXTERNAL_PROJECT_ITCOIN_SECP256K1_TARGET_NAME}
-    ${ITCOIN_SECP256K1_MODE_DEPENDENT_VARS}
-    BUILD_IN_SOURCE true
-    BUILD_ALWAYS true
-    CONFIGURE_COMMAND
-        # MUXATOR: do not quote CMAKE_C_COMPILER here: CMAKE_COMMAND is not
-        # intelligent and would think that the name of the C compiler is
-        # "/usr/bin/gcc-10", including the quotes!
-        "${CMAKE_COMMAND}" -E env CC=${CMAKE_C_COMPILER}
-        "${ITCOIN_SECP256K1_SRC_DIR}/configure"
-        "--prefix=${SECP256K1_PREFIX}"
-        "--disable-benchmark"
-        "--disable-exhaustive-tests"
-        "--disable-external-default-callbacks"
-        "--disable-module-ecdh"
-        "--disable-module-extrakeys"
-        "--disable-module-recovery"
-        "--disable-tests"
-        "--enable-experimental"
-        "--enable-module-schnorrsig"
-        "--with-test-override-wide-multiply=${WIDEMUL_SIZE}"
-        "CPPFLAGS=${EXHAUSTIVE_TEST_ORDER}"
-    BUILD_COMMAND make -j
-    BUILD_IN_SOURCE 1
-)
-
-
-
-ExternalProject_Add_Step(${EXTERNAL_PROJECT_ITCOIN_SECP256K1_TARGET_NAME}
-  autogen
-  COMMAND cd ${ITCOIN_SECP256K1_SRC_DIR} && ./autogen.sh
-  DEPENDERS configure
-  DEPENDEES download
-)
-
-set(ITCOIN_SECP256K1_LIBRARIES ${USR_LIB_DIR}/libsecp256k1.a)
-    
-add_custom_target(itcoin-secp256k1-libraries DEPENDS itcoin-secp256k1 ${ITCOIN_SECP256K1_LIBRARIES})
-# ------------------------------------------------------------------------------
-
-
-# ------------------------------------------------------------------------------
-# grind
-# ------------------------------------------------------------------------------
-set (LIB_GRIND_NAME grind)
-set (LIB_GRIND_NAME ${LIB_GRIND_NAME} PARENT_SCOPE)
-set (LIB_GRIND_MODULE_PATH ${THIRDPARTY_MODULE_PATH}/${LIB_GRIND_NAME})
-set (LIB_GRIND_INCLUDE_PATH ${LIB_GRIND_MODULE_PATH})
-set (GRIND_SOURCE_FILES "${LIB_GRIND_MODULE_PATH}/grind.cpp")
-add_library (${LIB_GRIND_NAME} STATIC ${GRIND_SOURCE_FILES})
-add_dependencies(grind itcoin-core-libraries)
-target_link_libraries(${LIB_GRIND_NAME} ${ITCOIN_CORE_LIBRARIES})
-target_include_directories(${LIB_GRIND_NAME} PRIVATE ${LIB_ITCOIN_CORE_INCLUDE_PATH})
-# ------------------------------------------------------------------------------
-
 # -------
 # SWI-cpp
+# If you want to skip the prolog build, install swi-prolog in the system.
+# E.g. in Ubuntu 22.04 you can install swi-prolog stable from https://www.swi-prolog.org/build/PPA.html
 # -------
-ExternalProject_Add(swi-prolog
-    GIT_REPOSITORY https://github.com/SWI-Prolog/swipl-devel
-    GIT_TAG V8.5.9
-    GIT_PROGRESS true
-    CMAKE_ARGS
-        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
-        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-        -DCMAKE_INSTALL_PREFIX=${USR_DIR}
-        -DSWIPL_PACKAGES_ODBC=OFF
-        -DSWIPL_PACKAGES_JAVA=OFF
-        -DSWIPL_PACKAGES_X=OFF
-        -DBUILD_TESTING=OFF
-        -DINSTALL_TESTS=OFF
-        -DINSTALL_DOCUMENTATION=OFF
-)
+set(LIB_SWI_PROLOG_VERSION 8.4.2)
+find_package(SWI-Prolog ${LIB_SWI_PROLOG_VERSION}...<9.1.0)
 
-set(LIB_SWI_PROLOG_SWIPL ${USR_DIR}/bin/swipl)
-set(LIB_SWI_PROLOG_INCLUDE_PATH
-    ${THIRDPARTY_MODULE_PATH}/SWI-cpp
-    ${USR_DIR}/lib/swipl/include
-)
-set(LIB_SWI_PROLOG_LIBRARIES swipl)
+if (SWI-Prolog_FOUND)
+    message("SWI-Prolog will be used from the system.")
+    set(LIB_SWI_PROLOG_SWIPL swipl)
+    set(LIB_SWI_PROLOG_INCLUDE_PATH
+        ${THIRDPARTY_MODULE_PATH}/SWI-cpp
+        ${SWI-Prolog_INCLUDE_DIR}
+    )
+    set(LIB_SWI_PROLOG_LIBRARIES ${SWI-Prolog_LIBRARIES})
+    add_custom_target(SWI-Prolog)
+else()
+    message("SWI-Prolog will be compiled from source.")
+    ExternalProject_Add(SWI-Prolog
+        GIT_REPOSITORY https://github.com/SWI-Prolog/swipl
+        GIT_TAG V${LIB_SWI_PROLOG_VERSION}
+        GIT_PROGRESS true
+        CMAKE_ARGS
+            -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+            -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+            -DCMAKE_INSTALL_PREFIX=${USR_DIR}
+            -DSWIPL_PACKAGES_ODBC=OFF
+            -DSWIPL_PACKAGES_JAVA=OFF
+            -DSWIPL_PACKAGES_X=OFF
+            -DBUILD_TESTING=OFF
+            -DINSTALL_TESTS=OFF
+            -DINSTALL_DOCUMENTATION=OFF
+    )
+    set(LIB_SWI_PROLOG_SWIPL ${USR_DIR}/bin/swipl)
+    set(LIB_SWI_PROLOG_INCLUDE_PATH
+        ${THIRDPARTY_MODULE_PATH}/SWI-cpp
+        ${USR_DIR}/lib/swipl/include
+    )
+    set(LIB_SWI_PROLOG_LIBRARIES swipl)
+endif()
 message(STATUS "SWI-Prolog - swipl executable: ${LIB_SWI_PROLOG_SWIPL}")
 message(STATUS "SWI-Prolog - include path: ${LIB_SWI_PROLOG_INCLUDE_PATH}")
 message(STATUS "SWI-Prolog - libraries to link: ${LIB_SWI_PROLOG_LIBRARIES}")
 
 #set variables
 set (THIRDPARTY_INCLUDE_PATH
-    ${LIB_SQLITE_MODERN_CPP_INCLUDE_PATH}
-    ${LIB_GRIND_INCLUDE_PATH}
-    ${LIB_INCBIN_INCLUDE_PATH}
     ${LIB_SHA256_INCLUDE_PATH}
     ${LIB_ITCOIN_CORE_INCLUDE_PATH}
     ${LIB_SWI_PROLOG_INCLUDE_PATH}
@@ -440,12 +315,10 @@ set (THIRDPARTY_INCLUDE_PATH
 
 set (THIRDPARTY_LIBRARIES
     ${ITCOIN_CORE_LIBRARIES}
-    ${PROTOBUF_LIBRARIES}
     ${JSON_RPC_CPP_LIBRARIES}
     ${JSON_CPP_LIBRARIES}
     ${Boost_LIBRARIES}
     ${LIB_SHA256_NAME}
-    ${LIB_GRIND_NAME}
     ${LIB_SWI_PROLOG_LIBRARIES}
 )
 
@@ -460,4 +333,3 @@ set (LIB_SWI_PROLOG_SWIPL ${LIB_SWI_PROLOG_SWIPL} PARENT_SCOPE)
 set (THIRDPARTY_INCLUDE_PATH ${THIRDPARTY_INCLUDE_PATH} PARENT_SCOPE)
 set (THIRDPARTY_LIBRARIES ${THIRDPARTY_LIBRARIES} PARENT_SCOPE)
 set (PROTOC_BINARY ${PROTOC_BINARY} PARENT_SCOPE)
-set (ITCOIN_SECP256K1_LIBRARIES ${ITCOIN_SECP256K1_LIBRARIES} PARENT_SCOPE)

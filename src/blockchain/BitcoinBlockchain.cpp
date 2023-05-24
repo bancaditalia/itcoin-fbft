@@ -1,19 +1,22 @@
+// Copyright (c) 2023 Bank of Italy
+// Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
 #include "blockchain.h"
 
 #include <boost/format.hpp>
 #include <boost/log/trivial.hpp>
 
-#include "../PbftConfig.h"
-#include "../block/generate.h"
+#include "config/FbftConfig.h"
+#include "generate.h"
 #include "../transport/btcclient.h"
 
 using namespace std;
-using namespace itcoin::block;
+using namespace itcoin::blockchain;
 
 namespace itcoin {
 namespace blockchain {
 
-BitcoinBlockchain::BitcoinBlockchain(const itcoin::PbftConfig& conf, transport::BtcClient& bitcoind):
+BitcoinBlockchain::BitcoinBlockchain(const itcoin::FbftConfig& conf, transport::BtcClient& bitcoind):
 Blockchain(conf), m_bitcoind(bitcoind)
 {
   m_reward_address = m_conf.replica_set_v().at(m_conf.id()).p2pkh();

@@ -1,16 +1,12 @@
-# Editor files
+# Code editor files
 .vscode
 .vscode/
 *.code-workspace
-
-target/
-usrlocal/
-
-# do not put generated files under version control
-generated/
+cmake-build-debug/
+.idea/
 
 # Save config and wallet
-infra/node00/miner.pbft.db
+infra/node00/miner.fbft.db
 infra/node00/signet/*
 !infra/node00/signet/settings.json
 !infra/node00/signet/wallets
@@ -20,7 +16,7 @@ infra/node00/signet/wallets/itcoin_signer/*
 !infra/node00/signet/wallets/itcoin_signer/wallet.dat
 
 # Save config and wallet
-infra/node01/miner.pbft.db
+infra/node01/miner.fbft.db
 infra/node01/signet/*
 !infra/node01/signet/settings.json
 !infra/node01/signet/wallets
@@ -30,7 +26,7 @@ infra/node01/signet/wallets/itcoin_signer/*
 !infra/node01/signet/wallets/itcoin_signer/wallet.dat
 
 # Save config and wallet
-infra/node02/miner.pbft.db
+infra/node02/miner.fbft.db
 infra/node02/signet/*
 !infra/node02/signet/settings.json
 !infra/node02/signet/wallets
@@ -40,7 +36,7 @@ infra/node02/signet/wallets/itcoin_signer/*
 !infra/node02/signet/wallets/itcoin_signer/wallet.dat
 
 # Save config and wallet
-infra/node03/miner.pbft.db
+infra/node03/miner.fbft.db
 infra/node03/signet/*
 !infra/node03/signet/settings.json
 !infra/node03/signet/wallets
