@@ -1,0 +1,14 @@
+{
+  "nodes": 10,
+  "clients": 1,
+  "signature_algorithm": "ROAST",
+  "warmup_duration": 30,
+  "rate": 0,
+  "tx_size": 4096,
+  "genesis_hours_in_the_past": -0.01,
+  "target_block_time": 60,
+  "faults": 1,
+  "fault_time": 60,
+  "duration": 300,
+  "runs": 1
+}

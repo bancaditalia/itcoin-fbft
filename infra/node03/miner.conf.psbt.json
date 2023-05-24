@@ -1,0 +1,49 @@
+{
+  "id": 3,
+  "genesis_block_hash": "49dc109285f9a914c1d16a6b03bb139ef298e97c1d561bc805dad5e8463ec26f",
+  "genesis_block_timestamp" : 1598918400,
+  "target_block_time": 60,
+
+  "signature_algorithm": "ROAST",
+  
+  "test_rpc_port": 147853,
+
+  /*
+   * If this value is not null, the replica will also broadcast its messages to
+   * this additional endpoint.
+   *
+   * Normally this is used to send informations to the web service implementing
+   * a demo.
+   *
+   * Keep it "null" (without quotes) in production.
+   */
+  "sniffer_dish_connection_string": "tcp://127.0.0.1:12330",
+
+  "pbft_replica_set": [
+    {
+      "host": "127.0.0.1",
+      "port": 12340,
+      "p2pkh": "msFfnuEJyREqZh9ffFi8Z7ksNWKwX3TGqV",
+      "pubkey": "03baff8453b64e0db96d7c904174cc775d35823bd7e064e957db461ff8d97a39c8"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 12350,
+      "p2pkh": "mtAaJmpWCYtVLk1YHAu4usC8QwvVEBMke1",
+      "pubkey": "036217c1d848caadaafd6bb7b41c7940c02bbeb470b7bc7c48ddfeebfb20cb6be7"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 12360,
+      "p2pkh": "mkN38RaNZikfrzQyVNCkeE3wHwZ2Sa4sho",
+      "pubkey": "0235fb8c606e782c43c705f595a4544dfbf99df723f3132510ef9f462bf23bb341"
+    },
+    {
+      "host": "127.0.0.1",
+      "port": 12370,
+      "p2pkh": "my11Kdpe94TDoYsu1rqcG2jhEcbcRicLEV",
+      "pubkey": "03f82ff15a2426e8a8e26cfb44d5678565cdd872494e50ed1729498152f0f31ca1"
+    }
+  ]
+
+}

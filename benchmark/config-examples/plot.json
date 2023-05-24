@@ -1,0 +1,7 @@
+{
+  "faults": [0],
+  "nodes": [4, 7, 10, 13],
+  "max_latency": 20000,
+  "genesis_hours_in_the_past": 6,
+  "tx_size": 512
+}

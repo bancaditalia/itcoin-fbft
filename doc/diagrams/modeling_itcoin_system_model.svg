@@ -1,0 +1,1002 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="modeling_itcoin_system_model.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="-677.4083"
+     inkscape:cy="813.1728"
+     inkscape:window-width="1680"
+     inkscape:window-height="987"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showborder="false"
+     inkscape:snap-global="true"
+     inkscape:snap-midpoints="true"
+     inkscape:object-nodes="true"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-grids="false"
+     inkscape:object-paths="false"
+     inkscape:snap-smooth-nodes="true"
+     inkscape:snap-nodes="true"
+     inkscape:snap-object-midpoints="true"
+     inkscape:snap-others="true"
+     inkscape:snap-center="false">
+    <sodipodi:guide
+       position="-81.756273,66.09743"
+       orientation="0,-1"
+       id="guide17877" />
+    <sodipodi:guide
+       position="-84.1375,21.833333"
+       orientation="-0.0053709192,-0.99998558"
+       id="guide17879" />
+    <sodipodi:guide
+       position="-14.2875,265.77917"
+       orientation="1,0"
+       id="guide17881" />
+    <sodipodi:guide
+       position="30.1625,66.09743"
+       orientation="1,0"
+       id="guide17883" />
+    <sodipodi:guide
+       position="-14.022926,183.41503"
+       orientation="0,-1"
+       id="guide17885" />
+    <sodipodi:guide
+       position="-14.2875,140.36667"
+       orientation="0,-1"
+       id="guide17887" />
+    <sodipodi:guide
+       position="-129.11667,140.36667"
+       orientation="1,0"
+       id="guide17889" />
+    <sodipodi:guide
+       position="-84.1375,242.49583"
+       orientation="1,0"
+       id="guide17891" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <marker
+       style="overflow:visible"
+       id="marker12389"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round"
+         id="path12387" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Mstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.6) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round"
+         id="path11860" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow2Lstart"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lstart"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round"
+         id="path11854" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Send"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Send"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.3) rotate(180) translate(-2.3,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path11869" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Mend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Mend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(0.6) rotate(180) translate(0,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path11863" />
+    </marker>
+    <marker
+       style="overflow:visible;"
+       id="Arrow2Lend"
+       refX="0.0"
+       refY="0.0"
+       orient="auto"
+       inkscape:stockid="Arrow2Lend"
+       inkscape:isstock="true">
+      <path
+         transform="scale(1.1) rotate(180) translate(1,0)"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         style="stroke:context-stroke;fill-rule:evenodd;fill:context-stroke;stroke-width:0.62500000;stroke-linejoin:round;"
+         id="path11857" />
+    </marker>
+    <inkscape:path-effect
+       effect="spiro"
+       id="path-effect37591"
+       is_visible="true"
+       lpeversion="1" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4.4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect12837"
+       width="210.34375"
+       height="51.593746"
+       x="206.50728"
+       y="-129.14516" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:0.79375,0.79375;stroke-dashoffset:0"
+       d="M -156.63333,120.65 C -88.48968,91.980355 -27.401433,82.12512 28.045833,87.312499"
+       id="path12283"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.79375, 0.79375;stroke-dashoffset:0;stroke-opacity:1"
+       d="m -156.63333,119.59167 c -10.43131,68.0556 1.32382,129.30336 31.75,184.67916"
+       id="path10057"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -17.761906,156.71209 v 29.56716 l 26.95761,-0.17164 0.2347,26.81587"
+       id="path1663"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -66.27815,251.67236 26.12757,0 0.143233,-19.06731 26.815876,-0.2347"
+       id="path1661"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -89.466898,165.03385 25.33382,0 0.143233,-30.44439 24.434627,-0.2347"
+       id="path1992"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32291995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:5.2916798,1.32291995;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 1.4551986,135.4131 43.0324994,1e-5"
+       id="path18032"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32291995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:5.2916798,1.32291995;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m -105.47421,104.85372 0.0348,38.61666"
+       id="path18030"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32291995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:5.2916798,1.32291995;stroke-dashoffset:0;stroke-opacity:1;marker-end:url(#Arrow2Mend)"
+       d="m 8.6366533,252.61098 0,33.06033"
+       id="path18034"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32291995;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:5.2916798,1.32291995;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m -148.73355,252.20152 h 46.47207"
+       id="path18036"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -93.309578,182.11224 35.084075,13.99772 c 0,0 1.445084,-4.85307 8.206585,-2.45114 7.190025,2.55415 4.499324,7.36958 4.499324,7.36958 l 36.5101539,14.60597"
+       id="path2157"
+       sodipodi:nodetypes="ccscc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -21.879865,136.82214 -81.184782,259.19495"
+       id="path2159"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.79375, 0.79375;stroke-dashoffset:0;stroke-opacity:1"
+       d="m -125.4125,305.32916 c 66.099809,11.23262 131.6407206,-9.30943 196.320832,-44.45"
+       id="path4964"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.79375, 0.79375;stroke-dashoffset:0;stroke-opacity:1"
+       d="M 66.674999,262.99583 C 60.701714,188.90004 63.664433,153.44564 25.929167,89.429166"
+       id="path6516"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:0.79375, 0.79375;stroke-dashoffset:0;stroke-opacity:1"
+       d="m -157.69166,120.64999 52.38749,-39.687491 70.37917,-16.933333 62.970834,21.695832 41.274998,50.270832 15.875,66.67499 -16.404166,59.26668 -60.3249994,47.625 -64.5583336,20.10833 -73.025003,-24.87084 -44.44999,-51.85832 -8.46667,-72.49584 z"
+       id="path41479"
+       sodipodi:nodetypes="ccccccccccccc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="path2282"
+       cx="-100.86299"
+       cy="88.759079"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       inkscape:transform-center-x="57.42167"
+       inkscape:transform-center-y="-113.87699"
+       r="21.828123"
+       transform="rotate(3.7989136)" />
+    <circle
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle17973"
+       cx="27.73073"
+       cy="308.2623"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       inkscape:transform-center-x="-56.501512"
+       inkscape:transform-center-y="112.80441"
+       transform="rotate(3.5821385)"
+       r="21.824936" />
+    <circle
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle17975"
+       cx="-172.8907"
+       cy="253.00261"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       inkscape:transform-center-x="123.15132"
+       inkscape:transform-center-y="56.870724"
+       r="21.826939"
+       transform="rotate(-0.03581807)" />
+    <circle
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle17977"
+       cx="66.988426"
+       cy="135.56433"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       inkscape:transform-center-x="-116.3887"
+       inkscape:transform-center-y="-60.852615"
+       r="21.826939"
+       transform="rotate(-0.24432447)" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3091"
+       cx="168.43694"
+       cy="139.75238"
+       inkscape:transform-center-x="-134.01891"
+       inkscape:transform-center-y="5.9606981"
+       transform="rotate(27.487629)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3105"
+       cx="252.04123"
+       cy="96.917816"
+       inkscape:transform-center-x="-117.17787"
+       inkscape:transform-center-y="65.552379"
+       transform="rotate(54.364395)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3103"
+       cx="316.06256"
+       cy="-108.27346"
+       inkscape:transform-center-x="7.240568"
+       inkscape:transform-center-y="133.55057"
+       transform="rotate(118.61856)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3101"
+       cx="258.16568"
+       cy="-204.81985"
+       inkscape:transform-center-x="77.17771"
+       inkscape:transform-center-y="108.63368"
+       transform="rotate(150.95858)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3099"
+       cx="56.944118"
+       cy="-248.5341"
+       inkscape:transform-center-x="131.47698"
+       inkscape:transform-center-y="-15.74828"
+       transform="rotate(-147.81472)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3097"
+       cx="-25.898533"
+       cy="-195.94499"
+       inkscape:transform-center-x="108.20682"
+       inkscape:transform-center-y="-76.093819"
+       transform="rotate(-119.73118)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3095"
+       cx="-72.157372"
+       cy="3.9255378"
+       inkscape:transform-center-x="-17.634049"
+       inkscape:transform-center-y="-133.63988"
+       transform="rotate(-58.718629)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <circle
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="circle3093"
+       cx="-19.221848"
+       cy="89.27739"
+       inkscape:transform-center-x="-77.062613"
+       inkscape:transform-center-y="-108.82133"
+       transform="rotate(-29.980292)"
+       r="18.917707"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <rect
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32291;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect924"
+       width="43.65625"
+       height="43.65625"
+       x="-107.81773"
+       y="230.90257"
+       ry="6.2049398"
+       rx="6.2049398"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <rect
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32291;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect1243"
+       width="43.65625"
+       height="43.65625"
+       x="-40.084385"
+       y="113.58498"
+       ry="6.2049398"
+       rx="6.2049398"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <rect
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect1241"
+       width="43.656246"
+       height="43.656246"
+       x="-13.720637"
+       y="211.60056"
+       ry="6.2049394"
+       rx="6.2049394"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <rect
+       style="fill:#e6e6e6;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect1245"
+       width="43.614586"
+       height="43.614586"
+       x="-128.14336"
+       y="144.04279"
+       ry="6.1990185"
+       rx="6.1990185"
+       transform="rotate(0.07651453)"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.32292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -107.62567,187.1266 v 22.95257 l 22.988864,-0.17164 0.2347,20.73046"
+       id="path1313"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-0.95517546"
+       y="237.14731"
+       id="text4326"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan4324"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-0.95517546"
+         y="237.14731">M<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan110450">1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-27.504784"
+       y="139.06232"
+       id="text4758"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan4756"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-27.504784"
+         y="139.06232">M<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan85602">0</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-95.242615"
+       y="256.44934"
+       id="text4762"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan4760"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-95.242615"
+         y="256.44934">M<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan116160">2</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-121.13329"
+       y="169.42656"
+       id="text4766"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan4764"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-121.13329"
+         y="169.42656">M<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan106662">N-1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-16.096018"
+       y="182.88089"
+       id="text14282"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan14280"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-16.096018"
+         y="182.88089">minerP2P<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan145722">0,1</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="59.629955"
+       y="139.01967"
+       id="text20022"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan20020"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="59.629955"
+         y="139.01967">P<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan82186">0</tspan></tspan></text>
+    <g
+       id="g4582"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-0.61451534,-0.7146997)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text28244"><tspan
+           sodipodi:role="line"
+           id="tspan28242"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan172611">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan166149">4</tspan></tspan></text>
+    </g>
+    <g
+       id="g4571"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(10.867501,0.67405071)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="-50.754536"
+         y="63.768326"
+         id="text898"><tspan
+           sodipodi:role="line"
+           id="tspan896"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="-50.754536"
+           y="63.768326">...</tspan></text>
+    </g>
+    <g
+       id="g178067"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-17.53169,58.876982)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178065"><tspan
+           sodipodi:role="line"
+           id="tspan178063"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178059">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178061">5</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-2"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-141.90982,126.94459)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-9"><tspan
+           sodipodi:role="line"
+           id="tspan178153-4"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-3">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-2">6</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-3"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-211.86263,101.95157)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-6"><tspan
+           sodipodi:role="line"
+           id="tspan178153-5"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-6">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-7">7</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-8"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-266.13279,-22.419199)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-2"><tspan
+           sodipodi:role="line"
+           id="tspan178153-47"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-7">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-5">8</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-7"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-241.11597,-82.699797)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-27"><tspan
+           sodipodi:role="line"
+           id="tspan178153-2"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-2">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-8">i</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-4"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-63.354947,-115.42731)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-4"><tspan
+           sodipodi:role="line"
+           id="tspan178153-6"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-32">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-50">M-1</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-9"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-258.29237,50.746294)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-0"><tspan
+           sodipodi:role="line"
+           id="tspan178153-28"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-9">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-88">2</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-5"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-76.953009,107.02828)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-8"><tspan
+           sodipodi:role="line"
+           id="tspan178153-8"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-27">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-6">1</tspan></tspan></text>
+    </g>
+    <g
+       id="g178157-1"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"
+       transform="translate(-197.4048,-120.48297)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+         x="77.619438"
+         y="206.52878"
+         id="text178155-3"><tspan
+           sodipodi:role="line"
+           id="tspan178153-43"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+           x="77.619438"
+           y="206.52878"><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.1111px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+             id="tspan178149-99">P</tspan><tspan
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.17222px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;baseline-shift:sub"
+             id="tspan178151-55">N-1</tspan></tspan></text>
+    </g>
+    <rect
+       style="fill:#ffffff;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4.4;paint-order:markers fill stroke"
+       id="rect18187"
+       width="55.191154"
+       height="13.657473"
+       x="-197.46378"
+       y="205.79753"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <rect
+       style="fill:#ffffff;stroke-width:0;stroke-linecap:round;stroke-miterlimit:4.4;paint-order:markers fill stroke"
+       id="rect18187-6"
+       width="55.191154"
+       height="13.657473"
+       x="-129.11667"
+       y="113.58497"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-210.04259"
+       y="216.40236"
+       id="text42913"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan42911"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-210.04259"
+         y="216.40236">participantP2P<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan150536">2,8</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="288.58716"
+       y="-87.18544"
+       id="text11029"><tspan
+         sodipodi:role="line"
+         id="tspan11027"
+         style="stroke-width:0.264583"
+         x="288.58716"
+         y="-87.18544">merkle root hash</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 206.50729,-103.34828 H 416.85107"
+       id="path18896"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 378.48646,-128.61599 v 25.13542"
+       id="path18980" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 249.06659,-103.34828 v 25.135415"
+       id="path19237" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 397.66875,-128.61599 v 25.13542"
+       id="path19319" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 227.78695,-103.0837 v 25.135418"
+       id="path19321" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="238.84547"
+       y="-114.17294"
+       id="text25931"><tspan
+         sodipodi:role="line"
+         id="tspan25929"
+         style="stroke-width:0.264583"
+         x="238.84547"
+         y="-114.17294">prev. block hash</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="177.90099"
+       y="144.98268"
+       id="text27363"
+       transform="rotate(-60)"><tspan
+         sodipodi:role="line"
+         id="tspan27361"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="177.90099"
+         y="144.98268">nBits</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="186.94177"
+       y="163.28758"
+       id="text28255"
+       transform="rotate(-60)"><tspan
+         sodipodi:role="line"
+         id="tspan28253"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="186.94177"
+         y="163.28758">nonce</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="296.65512"
+       y="296.69586"
+       id="text30059"
+       transform="rotate(-60)"><tspan
+         sodipodi:role="line"
+         id="tspan30057"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="296.65512"
+         y="296.69586">time</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="281.7796"
+       y="279.92657"
+       id="text33081"
+       transform="rotate(-60)"><tspan
+         sodipodi:role="line"
+         id="tspan33079"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="281.7796"
+         y="279.92657">version</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m 335.50621,-84.131093 8.98279,29.409837"
+       id="path37353"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m 329.80788,-84.131093 -8.98279,29.409837"
+       id="path37572"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m 323.47094,-54.19209 8.98279,29.409837"
+       id="path37574"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.79375;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)"
+       d="m 318.30178,-54.19209 -8.98279,29.409837"
+       id="path37576"
+       sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#000000;stroke:#000000;stroke-width:0.79375;stroke-linecap:round;stroke-miterlimit:4.4;stroke-dasharray:none;paint-order:markers fill stroke"
+       id="rect39432"
+       width="13.758333"
+       height="2.1166666"
+       x="314.47519"
+       y="-56.308758" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="-133.34631"
+       y="123.14339"
+       id="text30252"
+       inkscape:export-filename="C:\Users\galan\Desktop\GraphicDesign\chap2_system_model_01.png"
+       inkscape:export-xdpi="77.299797"
+       inkscape:export-ydpi="77.299797"><tspan
+         sodipodi:role="line"
+         id="tspan30250"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0.264583"
+         x="-133.34631"
+         y="123.14339">participantRPC<tspan
+   style="font-size:65%;baseline-shift:sub"
+   id="tspan152228">N-1</tspan></tspan></text>
+  </g>
+</svg>

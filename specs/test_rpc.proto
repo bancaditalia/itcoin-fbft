@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package itcoin.test.rpc;
+
+import "google/protobuf/empty.proto";
+
+/**
+ * This proto file defines the Command & Control interface for the itcoin miner.
+ * It is intended for testing purposes only, and will not be exposed in
+ * production mode.
+ */
+
+message NodeInfo {
+  int32 id = 1;
+
+  int32 cluster_size = 2;
+  int32 cluster_max_failures = 3;
+  int32 cluster_quorum = 4;
+
+  int32 debug_delay = 5;;
+};
+
+message SetDelayRequest {
+  int32 seconds = 1;
+}
+
+message SetDelayResponse {
+  int32 seconds = 1;
+}
+
+service NodeTestRpc {
+  rpc AppendNewBlock(google.protobuf.Empty) returns (google.protobuf.Empty) {};
+  rpc GetInfo(google.protobuf.Empty) returns (NodeInfo) {};
+  rpc SetDelay(SetDelayRequest) returns (SetDelayResponse) {};
+  rpc Stop(google.protobuf.Empty) returns (google.protobuf.Empty) {};
+}

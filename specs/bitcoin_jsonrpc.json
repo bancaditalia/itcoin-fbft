@@ -1,0 +1,111 @@
+[
+  {
+    "name": "sendtoaddress",
+    "params": [
+      "tb1q36d5pcjhym68f4tcugzdsfayj8nmljvmsfestm",
+      10,
+      "comment",
+      "comment_to",
+      false,
+      true,
+      "null",
+      "unset",
+      false,
+      25
+    ],
+    "returns": "txid"
+  },
+  {
+      "name": "signmessage",
+      "params": [
+        "address",
+        "message"
+      ],
+      "returns": "signature"
+  },
+  {
+    "name": "verifymessage",
+    "params": [
+      "address",
+      "signature",
+      "message"
+    ],
+
+    // This is a quirk of the jsonrpc spec language: In order to generate a
+    // stub that returns a boolean, the "returns" field must be a boolean
+    // literal (e.g.: true or false).
+    //
+    // I arbitrarily chose to use false.
+    //
+    // Also, it seems that comments are allowed in this json file.
+    "returns": false
+  },
+  {
+    "name": "getblockchaininfo",
+    "params": [],
+    "returns": {}
+  },
+  {
+    "name": "getaddressinfo",
+    "params": ["address"],
+    "returns": {}
+  },
+  {
+    "name": "getblocktemplate",
+    "params": [{}],
+    "returns": {}
+  },
+  {
+    "name": "submitblock",
+    "params": ["hexdata"],
+    "returns": {}
+  },
+  {
+    "name": "testblockvalidity",
+    "params": [
+      "hexdata",
+      // (boolean, optional, default=true) check signet solution
+      true
+    ],
+    "returns": {}
+  },
+  {
+    "name": "walletprocesspsbt",
+    "params": [
+      "psbt",
+      // (boolean, optional, default=true) Also sign the transaction when updating (requires wallet to be unlocked)
+      true,
+      // (string, optional, default="DEFAULT for Taproot, ALL otherwise") The signature hash type to sign with if not specified by the PSBT.
+      "sighash"
+    ],
+    "returns": {}
+  },
+  {
+    "name": "combinepsbt",
+    "params": [{}],
+    "returns": "psbt"
+  },
+  {
+    "name": "finalizepsbt",
+    // the secons parameter is the "extract" flag (a boolean)
+    "params": [
+      "psbt",
+      true
+    ],
+    "returns": {}
+  },
+  {
+    "name": "analyzepsbt",
+    "params": [
+      "psbt"
+    ],
+    "returns": {}
+  }, 
+  {
+    "name": "dumpprivkey",
+    "params": [
+      "address"
+    ],
+    "returns": "privkey"
+  }
+]

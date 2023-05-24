@@ -1,0 +1,94 @@
+# This build requires ssh agent forwarding in order to be able to clone itcoin
+# private repos.
+#
+# Before running the build, please ensure that this command returns a single
+# line:
+#     ssh-add -L
+#     ssh-rsa PUBKEY /path/to/PRIVKEY
+#
+# and that the listed credentials are valid for github ssh authentication.
+#
+# To do the build, you'll need to build the image using a recent Docker (tested
+# with 20.10.12 on Ubuntu 20.04, not working with Podman), and run in this way:
+#     DOCKER_BUILDKIT=1 docker build --ssh default --file Dockerfile.ubuntu20.04 .
+#
+# Guide used for ssh agent forwarding:
+#     https://stackoverflow.com/questions/43418188/ssh-agent-forwarding-during-docker-build#53548076
+
+FROM ubuntu:20.04
+
+ENV TZ=Europe/Rome
+RUN ln --symbolic --no-dereference --force /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
+
+RUN apt update
+
+# toolchain deps
+RUN apt install --no-install-recommends -y \
+    autoconf \
+    automake \
+    bsdmainutils \
+    ca-certificates \
+    cmake \
+    g++-10 \
+    gcc-10 \
+    git \
+    jq \
+    libtool \
+    make \
+    openssh-client \
+    pkg-config \
+    python3 \
+    xxd \
+    zlib1g-dev
+
+# At this point in the Dockerfile we have gcc-9 installed (the default system's
+# compiler), while g++9 is not installed. We require gcc >= 10 and g++ >= 10
+# anyway. For good measure, let's remove gcc-9 since it is not needed.
+RUN apt remove -y gcc-9
+
+# build deps
+RUN apt install --no-install-recommends -y \
+    libargtable2-dev \
+    libboost-filesystem1.71-dev \
+    libboost-log1.71-dev \
+    libboost-program-options1.71-dev \
+    libboost-test1.71-dev \
+    libboost-thread1.71-dev \
+    libcurl4-openssl-dev \
+    libdb5.3++-dev \
+    libevent-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libzmqpp-dev
+
+# download public key for github.com
+RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
+
+RUN mkdir /itcoin-pbft
+
+WORKDIR /itcoin-pbft
+
+COPY . /itcoin-pbft
+
+RUN mkdir /itcoin-pbft/build
+
+WORKDIR /itcoin-pbft/build
+
+RUN cmake -DCMAKE_CXX_COMPILER=g++-10 -DCMAKE_C_COMPILER=gcc-10 ..
+
+# Put boost in a dedicated layer.
+RUN make boost-libraries -j $(nproc --ignore=1)
+
+# Put itcoin-core in a dedicated layer.
+#
+# This command will clone the itcoin-core private repo and thus needs to be run
+# with ssh secrets mounted.
+RUN --mount=type=ssh make itcoin-core-libraries -j $(nproc --ignore=1)
+
+# Put swi-prolog in a dedicated layer.
+RUN make swi-prolog -j $(nproc --ignore=1)
+
+# This command will clone the itcoin-pbft private repo and thus needs to be run
+# with ssh secrets mounted.
+RUN --mount=type=ssh make -j $(nproc --ignore=1)

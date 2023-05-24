@@ -1,0 +1,14 @@
+{
+  "nodes": 4,
+  "clients": 5,
+  "signature_algorithm": "NAIVE",
+  "rate": 10000,
+  "tx_size": 512,
+  "warmup_duration": 30,
+  "genesis_hours_in_the_past": 6,
+  "target_block_time": 5,
+  "faults": 0,
+  "fault_time": 0.0,
+  "duration": 60,
+  "runs": 5
+}

@@ -1,0 +1,66 @@
+# Editor files
+.vscode
+.vscode/
+*.code-workspace
+
+target/
+usrlocal/
+
+# do not put generated files under version control
+generated/
+
+# Save config and wallet
+infra/node00/miner.pbft.db
+infra/node00/signet/*
+!infra/node00/signet/settings.json
+!infra/node00/signet/wallets
+infra/node00/signet/wallets/*
+!infra/node00/signet/wallets/itcoin_signer
+infra/node00/signet/wallets/itcoin_signer/*
+!infra/node00/signet/wallets/itcoin_signer/wallet.dat
+
+# Save config and wallet
+infra/node01/miner.pbft.db
+infra/node01/signet/*
+!infra/node01/signet/settings.json
+!infra/node01/signet/wallets
+infra/node01/signet/wallets/*
+!infra/node01/signet/wallets/itcoin_signer
+infra/node01/signet/wallets/itcoin_signer/*
+!infra/node01/signet/wallets/itcoin_signer/wallet.dat
+
+# Save config and wallet
+infra/node02/miner.pbft.db
+infra/node02/signet/*
+!infra/node02/signet/settings.json
+!infra/node02/signet/wallets
+infra/node02/signet/wallets/*
+!infra/node02/signet/wallets/itcoin_signer
+infra/node02/signet/wallets/itcoin_signer/*
+!infra/node02/signet/wallets/itcoin_signer/wallet.dat
+
+# Save config and wallet
+infra/node03/miner.pbft.db
+infra/node03/signet/*
+!infra/node03/signet/settings.json
+!infra/node03/signet/wallets
+infra/node03/signet/wallets/*
+!infra/node03/signet/wallets/itcoin_signer
+infra/node03/signet/wallets/itcoin_signer/*
+!infra/node03/signet/wallets/itcoin_signer/wallet.dat
+
+# do not put under revision control the conventional cmake "build" directory or
+# any other similar directories (e.g.: "build2", "build-tmp", etc).
+build*/
+
+# Ignore Microsoft Office temp files
+# see: https://stackoverflow.com/questions/61811801/how-to-make-git-ignore-temporary-files-created-by-ms-office-starting-with
+doc/~$*
+
+# ignore benchmark files
+benchmark/data
+benchmark/output
+benchmark/logs
+benchmark/plots
+benchmark/results
+benchmark/benchmark_framework/__pycache__

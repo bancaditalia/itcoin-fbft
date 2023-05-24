@@ -1,0 +1,14 @@
+{
+  "nodes": 10,
+  "clients": 1,
+  "signature_algorithm": "THREEFBFT",
+  "warmup_duration": 30,
+  "rate": 0,
+  "tx_size": 4096,
+  "genesis_hours_in_the_past": 15,
+  "target_block_time": 10,
+  "faults": 0,
+  "fault_time": null,
+  "duration": 120,
+  "runs": 3
+}

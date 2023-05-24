@@ -1,0 +1,34 @@
+# ItCoin
+#
+# This file limits which files may end up inside the docker build context,
+# i.e., which files will be available at container build time to an ADD/COPY
+# statement.
+#
+# The file follows a strict whitelist approach: everything is excluded from the
+# build context, except for explicitly allowed files/directories.
+#
+# references:
+# - https://docs.docker.com/engine/reference/builder/#dockerignore-file
+# - https://docs.docker.com/engine/reference/commandline/build/#extended-description
+
+# ignore everything by default
+*
+
+# Explicitly list the directories/files that can end up inside the build
+# context.
+#
+# NOTE: when adding a new file or a new directory inside the Dockerfile, put an
+#       entry here as well, otherwise the COPY/ADD phase will fail (if the file
+#       is explicitly mentioned in the Dockerfile) or will not grab it (if the
+#       file is indirectly referenced through a wildcard).
+
+!/apps
+!/cmake
+!/CMakeLists.txt
+!/infra
+!/README.md
+!/scripts
+!/specs
+!/src
+!/test
+!/thirdparty
