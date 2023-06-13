@@ -81,7 +81,8 @@ cd ~/itcoin-fbft
 ./infra/start-infra.sh
 ```
 
-The above command will spawn 4 itcoin-core daemon nodes tha are used for testing.
+The above command will spawn 4 itcoin-core daemon nodes that are used for
+testing.
 You can query the state of the mining nodes using the command line.
 After a reset, all nodes should have 0 blocks.
 
