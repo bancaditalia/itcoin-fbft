@@ -1,0 +1,23 @@
+{
+    "testbed": "itcoin-testbed",
+    "key": {
+        "name": "itcoinKeyPair",
+        "path": "~/.ssh/aws"
+    },
+    "ports": {
+        "consensus": 13000,
+        "bitcoind": 38000
+    },
+    "repo": {
+        "name": "itcoin-fbft",
+        "url": "https://github.com/bancaditalia/itcoin-fbft.git",
+        "branch": "main", 
+        "cmake_options": "-DITCOIN_CORE_GIT_REV=itcoin"
+    },
+    "instances": {
+        "type": "t3.xlarge",
+        "regions": [
+            "eu-west-1", "eu-central-1"
+        ]
+    }
+}

@@ -28,6 +28,7 @@ sudo apt install --no-install-recommends -y \
     openssh-client \
     pkg-config \
     python3 \
+    tmux \
     xxd \
     zlib1g-dev
 

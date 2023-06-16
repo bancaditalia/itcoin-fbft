@@ -1,0 +1,13 @@
+{
+  "nodes": 4,
+  "clients": 1,
+  "warmup_duration": 0,
+  "rate": 0,
+  "tx_size": 4096,
+  "genesis_hours_in_the_past": -0.01,
+  "target_block_time": 60,
+  "faults": 1,
+  "fault_time": 60,
+  "duration": 180,
+  "runs": 1
+}
