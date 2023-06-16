@@ -54,9 +54,7 @@ build*/
 doc/~$*
 
 # ignore benchmark files
-benchmark/data
-benchmark/output
+benchmark/datadirs
 benchmark/logs
-benchmark/plots
 benchmark/results
 benchmark/benchmark_framework/__pycache__
