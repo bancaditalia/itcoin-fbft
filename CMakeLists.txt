@@ -7,7 +7,7 @@ project(itcoin-fbft
     HOMEPAGE_URL https://github.com/bancaditalia/itcoin-fbft.git
     DESCRIPTION "A prototype FBFT implementation for itcoin"
 )
-set(PROJECT_VERSION "0.1.0")
+set(PROJECT_VERSION "0.2.0")
 set(${PROJECT_NAME}_VERSION ${PROJECT_VERSION})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
