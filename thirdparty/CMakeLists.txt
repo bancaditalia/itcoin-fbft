@@ -233,10 +233,10 @@ set(ITCOIN_CORE_LIBRARIES
     ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_common.a
     ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_consensus.a
     ${ITCOIN_CORE_SRC_DIR}/src/libbitcoin_util.a
-    ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_base.a
-    ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_avx2.a
-    ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_x86_shani.a
-    ${ITCOIN_CORE_SRC_DIR}/src/crypto/libbitcoin_crypto_sse41.a
+    ${ITCOIN_CORE_SRC_DIR}/src/crypto/.libs/libbitcoin_crypto_base.a
+    ${ITCOIN_CORE_SRC_DIR}/src/crypto/.libs/libbitcoin_crypto_avx2.a
+    ${ITCOIN_CORE_SRC_DIR}/src/crypto/.libs/libbitcoin_crypto_x86_shani.a
+    ${ITCOIN_CORE_SRC_DIR}/src/crypto/.libs/libbitcoin_crypto_sse41.a
     ${ITCOIN_CORE_SRC_DIR}/src/.libs/libunivalue.a
     ${ITCOIN_CORE_SRC_DIR}/src/secp256k1/.libs/libsecp256k1.a
 )
