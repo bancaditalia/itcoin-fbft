@@ -1,0 +1,144 @@
+name: Test itcoin-fbft
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Install the build toolchain (gcc-12)
+        run: |
+          sudo apt install --no-install-recommends -y \
+            autoconf \
+            automake \
+            bsdextrautils \
+            ca-certificates \
+            cmake \
+            g++-12 \
+            gcc-12 \
+            git \
+            jq \
+            libtool \
+            make \
+            openssh-client \
+            parallel \
+            pkg-config \
+            python3 \
+            xxd \
+            zlib1g-dev
+      - name: Install the build and runtime dependencies
+        run: |
+          sudo apt install --no-install-recommends -y \
+            libargtable2-dev \
+            libboost-filesystem1.74-dev \
+            libboost-log1.74-dev \
+            libboost-program-options1.74-dev \
+            libboost-test1.74-dev \
+            libboost-thread1.74-dev \
+            libcurl4-openssl-dev \
+            libdb5.3++-dev \
+            libevent-dev \
+            libsqlite3-dev \
+            libssl-dev \
+            libzmq3-dev \
+            swi-prolog
+      - name: Checkout itcoin-fbft
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          path: itcoin-fbft
+      - name: Checkout itcoin-core
+        uses: actions/checkout@v3
+        with:
+          repository: bancaditalia/itcoin-core
+          fetch-depth: 1
+          path: itcoin-core
+      - name: save the revision id of itcoin-core in env variable ITCOIN_CORE_REVISION_ID
+        run: |
+          cd itcoin-core
+          printf "ITCOIN_CORE_REVISION_ID=%s\n" $(git rev-parse HEAD) | tee --append "${GITHUB_ENV}"
+      - name: Prepare the build
+        run: |
+          mkdir -p itcoin-fbft/build
+          cd itcoin-fbft/build
+          cmake \
+            -DCMAKE_C_COMPILER=$(which gcc-12) \
+            -DCMAKE_CXX_COMPILER=$(which g++-12) \
+            -DITCOIN_CORE_SRC_DIR=../../itcoin-core \
+            ..
+      - name: retrieve the names of the itcoin-core libraries that need to be cached
+        run: |
+          cd itcoin-fbft/build
+          # modified from: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
+          EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
+          echo "ITCOIN_CORE_LIBRARIES<<${EOF}" | tee --append "${GITHUB_ENV}"
+
+          # Let's use a subshell so that "set -o pipefail" does not mess with
+          # the runner's environment.
+          #
+          # Also, GitHub runner's /bin/sh does not support "echo -e", which we
+          # need, so we have to explicitly force the use of "/bin/bash"
+          (set -o pipefail ; make SHELL=/bin/bash print_itcoin_core_libraries | grep -v "Built target" | tee --append "${GITHUB_ENV}")
+          echo "${EOF}" | tee --append "${GITHUB_ENV}"
+      - name: Cache itcoin-core artifacts for version ${{ env.ITCOIN_CORE_REVISION_ID }}
+        id: cache-itcoin-core
+        uses: actions/cache@v3
+        with:
+          key: ${{ env.ITCOIN_CORE_REVISION_ID }}
+          path: |
+            ${{ env.ITCOIN_CORE_LIBRARIES }}
+            ${{ github.workspace }}/itcoin-core/src/bitcoin-cli
+            ${{ github.workspace }}/itcoin-core/src/bitcoind
+            ${{ github.workspace }}/itcoin-core/src/config/bitcoin-config.h
+            ${{ github.workspace }}/itcoin-core/src/secp256k1/libsecp256k1-config.h
+            ${{ github.workspace }}/itcoin-fbft/build/thirdparty/itcoin-core-repo-status
+      - name: build itcoin-fbft
+        run: |
+          cd itcoin-fbft/build
+          make -j $(nproc)
+      - name: start infrastructure in background, wait until started
+        run: |
+          cd itcoin-fbft/infra
+          ./reset-infra.sh 10
+          ./start-infra.sh &
+          # Concurrently for each node N in (0..4), failing at the first error:
+          # - invoke bitcoin-cli N uptime
+          # - if the invocation fails, retry with exponential backoff at most 6
+          #   times
+          # - if a bitcoin-cli invocation becomes unresponsive, it is timed out
+          #   after 30 seconds and is considered a failure (eventually retried)
+          parallel --halt-on-error now,fail=1 \
+              ./retry --min=0.5 --max=15 --tries=6 -- \
+                  timeout --kill-after=40 30 \
+                      ./bitcoin-cli.sh {1} uptime \
+              ::: {0..3}
+      - name: Run tests (failure will be detected in next step)
+        continue-on-error: true
+        id: tests
+        run: |
+          cd itcoin-fbft/build
+          make test
+      - name: Summarize test outcome. Fail and print log if tests failed.
+        run: |
+          # summary
+          RED='\033[0;31m'
+          GREEN='\033[0;32m'
+          NC='\033[0m' # No Color
+
+          echo -n "itcoin-fbft tests: "
+          if [[ ${{ steps.tests.outcome }} == "success" ]]; then
+            printf "${GREEN}SUCCESS${NC}\n"
+            exit 0
+          fi
+
+          # if we arrive here, the tests failed
+          printf "${RED}FAIL${NC} (${{ steps.tests.outcome }})\n"
+          echo "Contents of build/Testing/Temporary/LastTest.log:"
+          cat /home/runner/work/itcoin-fbft/itcoin-fbft/itcoin-fbft/build/Testing/Temporary/LastTest.log
+          exit 1
