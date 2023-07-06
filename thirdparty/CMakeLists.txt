@@ -333,3 +333,18 @@ set (LIB_SWI_PROLOG_SWIPL ${LIB_SWI_PROLOG_SWIPL} PARENT_SCOPE)
 set (THIRDPARTY_INCLUDE_PATH ${THIRDPARTY_INCLUDE_PATH} PARENT_SCOPE)
 set (THIRDPARTY_LIBRARIES ${THIRDPARTY_LIBRARIES} PARENT_SCOPE)
 set (PROTOC_BINARY ${PROTOC_BINARY} PARENT_SCOPE)
+
+# Prints the contents of ITCOIN_CORE_LIBRARIES as a multiline string when
+# invoked via "make print_itcoin_core_libraries". This is used in the CI
+# pipeline.
+#
+# Normally, CMake TARGET_MESSAGES global property will be true, so this will
+# also print "Built target print_itcoin_core_libraries", which will have to be
+# grepped away.
+#
+# SAMPLE:
+#     (set -o pipefail ; make print_itcoin_core_libraries  | grep -v "Built target" )
+list(JOIN ITCOIN_CORE_LIBRARIES "\\n" ITCOIN_CORE_LIBRARIES_MULTILINE)
+add_custom_target(print_itcoin_core_libraries
+    COMMAND echo -e "\"${ITCOIN_CORE_LIBRARIES_MULTILINE}\""
+)

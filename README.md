@@ -1,5 +1,7 @@
 # Frosted Byzantine Fault Tolerance (FBFT)
 
+[![tests](https://github.com/bancaditalia/itcoin-fbft/actions/workflows/test-itcoin-fbft.yml/badge.svg?branch=main&event=push)](https://github.com/bancaditalia/itcoin-fbft/actions/workflows/test-itcoin-fbft.yml)
+
 This repository contains the implementation of an itcoin "consensus node",
 which implements the Frosted Byzantine Fault Tolerance (FBFT) Proof-of-Authority consensus algorithm for the **itcoin** blockchain.
 You can find more information about itcoin at [the project web page](https://bancaditalia.github.io/itcoin).
