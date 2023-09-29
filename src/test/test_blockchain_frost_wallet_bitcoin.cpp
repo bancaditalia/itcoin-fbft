@@ -98,8 +98,9 @@ BOOST_FIXTURE_TEST_CASE(test_blockchain_frost_wallet_bitcoin_00, Replica4Fixture
 
     // Concatenate presignatures as done in prolog
     for (int i = 0; i < CLUSTER_SIZE; i++) {
-      if (i > 0)
+      if (i > 0) {
         pre_signatures.append("+");
+      }
       pre_signatures.append(frost_wallets[i]->GetPreSignatureShare());
     }
     // GetSignatureShare
@@ -122,8 +123,9 @@ BOOST_FIXTURE_TEST_CASE(test_blockchain_frost_wallet_bitcoin_00, Replica4Fixture
 
     // Concatenate PreSignatures as done in prolog
     for (int i = 0; i < CLUSTER_SIZE; i++) {
-      if (i > 0)
+      if (i > 0) {
         pre_signatures.append("+");
+      }
       pre_signatures.append(frost_wallets[i]->GetPreSignatureShare());
     }
     // GetSignatureShare
@@ -158,8 +160,9 @@ BOOST_FIXTURE_TEST_CASE(test_blockchain_frost_wallet_bitcoin_00, Replica4Fixture
     // Concatenate PreSignatures as done in prolog
     for (int i = 0; i < CLUSTER_SIZE; i++) {
       auto presignature = frost_wallets[i]->GetPreSignatureShare();
-      if (i == 1)
+      if (i == 1) {
         pre_signatures.append(presignature);
+      }
       if (i == 2) {
         pre_signatures.append("+");
         pre_signatures.append(presignature);
@@ -235,8 +238,9 @@ BOOST_FIXTURE_TEST_CASE(test_blockchain_frost_wallet_bitcoin_00, Replica4Fixture
     // Concatenate PreSignatures as done in prolog
     for (int i = 0; i < CLUSTER_SIZE; i++) {
       auto presignature = frost_wallets[i]->GetPreSignatureShare();
-      if (i == 1)
+      if (i == 1) {
         pre_signatures.append(presignature);
+      }
     }
     // GetSignatureShare: only 1 node signs
     std::vector<std::string> signature_shares;

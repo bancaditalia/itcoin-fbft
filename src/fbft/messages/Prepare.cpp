@@ -44,16 +44,20 @@ std::vector<std::unique_ptr<messages::Prepare>> Prepare::BuildToBeSent(uint32_t 
 }
 
 bool Prepare::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const Prepare&>(other);
 
-  if (m_view != typed_other.m_view)
+  if (m_view != typed_other.m_view) {
     return false;
-  if (m_seq_number != typed_other.m_seq_number)
+  }
+  if (m_seq_number != typed_other.m_seq_number) {
     return false;
-  if (m_req_digest != typed_other.m_req_digest)
+  }
+  if (m_req_digest != typed_other.m_req_digest) {
     return false;
+  }
   return Message::equals(other);
 }
 

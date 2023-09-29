@@ -61,14 +61,17 @@ std::vector<messages::Commit> Commit::FindByV_N(uint32_t replica_id, uint32_t v,
 }
 
 bool Commit::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const Commit&>(other);
 
-  if (m_view != typed_other.m_view)
+  if (m_view != typed_other.m_view) {
     return false;
-  if (m_seq_number != typed_other.m_seq_number)
+  }
+  if (m_seq_number != typed_other.m_seq_number) {
     return false;
+  }
   return Message::equals(other);
 }
 

@@ -73,14 +73,17 @@ const std::string RoastSignatureShare::digest() const {
 }
 
 bool RoastSignatureShare::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const RoastSignatureShare&>(other);
 
-  if (m_signature_share != typed_other.m_signature_share)
+  if (m_signature_share != typed_other.m_signature_share) {
     return false;
-  if (m_next_pre_signature_share != typed_other.m_next_pre_signature_share)
+  }
+  if (m_next_pre_signature_share != typed_other.m_next_pre_signature_share) {
     return false;
+  }
   return Message::equals(other);
 }
 

@@ -23,16 +23,20 @@ Block::Block(uint32_t block_height, uint32_t block_time, std::string block_hash)
 Block::~Block(){};
 
 bool Block::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const Block&>(other);
 
-  if (m_block_height != typed_other.m_block_height)
+  if (m_block_height != typed_other.m_block_height) {
     return false;
-  if (m_block_time != typed_other.m_block_time)
+  }
+  if (m_block_time != typed_other.m_block_time) {
     return false;
-  if (m_block_hash != typed_other.m_block_hash)
+  }
+  if (m_block_hash != typed_other.m_block_hash) {
     return false;
+  }
   return Message::equals(other);
 }
 

@@ -76,12 +76,14 @@ new_view_nu_t NewView::nu_from_plterm(PlTerm Nu) {
   PlTail Nu_tail{Nu};
   PlTerm Nu_elem;
   while (Nu_tail.next(Nu_elem)) {
-    if (string("[|]").compare(Nu_elem.name()) != 0 || Nu_elem.arity() != 2)
+    if (string("[|]").compare(Nu_elem.name()) != 0 || Nu_elem.arity() != 2) {
       throw std::runtime_error("NEW_VIEW Nu element term must have arity = 2");
+    }
     uint32_t nu_n = (long)Nu_elem[1];
     PlTerm Nu_elem_2 = Nu_elem[2];
-    if (string("[|]").compare(Nu_elem_2.name()) != 0 || Nu_elem_2.arity() != 2)
+    if (string("[|]").compare(Nu_elem_2.name()) != 0 || Nu_elem_2.arity() != 2) {
       throw std::runtime_error("NEW_VIEW Nu_elem_2 term must have arity = 2");
+    }
     std::string nu_digest{(const char*)Nu_elem_2[1]};
     PlTerm Nu_elem_3 = Nu_elem_2[2]; // Prolog lists end with empty list, the constant []
     assert(Nu_elem_3.type() == PL_NIL);
@@ -95,18 +97,21 @@ new_view_chi_t NewView::chi_from_plterm(PlTerm Chi) {
   PlTail Chi_tail{Chi};
   PlTerm Chi_elem;
   while (Chi_tail.next(Chi_elem)) {
-    if (string("[|]").compare(Chi_elem.name()) != 0 || Chi_elem.arity() != 2)
+    if (string("[|]").compare(Chi_elem.name()) != 0 || Chi_elem.arity() != 2) {
       throw std::runtime_error("SEND_NEW_VIEW Chi_elem term must have arity = 2");
+    }
     uint32_t chi_n = (long)Chi_elem[1];
     PlTerm Chi_elem_2 = Chi_elem[2];
 
-    if (string("[|]").compare(Chi_elem_2.name()) != 0 || Chi_elem_2.arity() != 2)
+    if (string("[|]").compare(Chi_elem_2.name()) != 0 || Chi_elem_2.arity() != 2) {
       throw std::runtime_error("SEND_NEW_VIEW Chi_elem_2 term must have arity = 2");
+    }
     std::string chi_digest{(const char*)Chi_elem_2[1]};
     PlTerm Chi_elem_3 = Chi_elem_2[2];
 
-    if (string("[|]").compare(Chi_elem_3.name()) != 0 || Chi_elem_3.arity() != 2)
+    if (string("[|]").compare(Chi_elem_3.name()) != 0 || Chi_elem_3.arity() != 2) {
       throw std::runtime_error("SEND_NEW_VIEW Chi_elem_3 term must have arity = 2");
+    }
     std::string chi_block{(const char*)Chi_elem_3[1]};
     PlTerm Chi_elem_4 = Chi_elem_3[2]; // Prolog lists end with empty list, the constant []
     assert(Chi_elem_4.type() == PL_NIL);
@@ -196,16 +201,20 @@ bool NewView::VerifySignatures(const RoastWallet& wallet) {
 }
 
 bool NewView::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const NewView&>(other);
 
-  if (m_view != typed_other.m_view)
+  if (m_view != typed_other.m_view) {
     return false;
-  if (m_vc_messages != typed_other.m_vc_messages)
+  }
+  if (m_vc_messages != typed_other.m_vc_messages) {
     return false;
-  if (m_ppp_messages != typed_other.m_ppp_messages)
+  }
+  if (m_ppp_messages != typed_other.m_ppp_messages) {
     return false;
+  }
   return Message::equals(other);
 }
 

@@ -62,8 +62,9 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_replica2_00, Replica2Fixture) {
         } else {
           int new_dead_replica = (std::rand() % CLUSTER_SIZE);
           if (new_dead_replica != dead_replica) {
-            if (dead_replica != -1)
+            if (dead_replica != -1) {
               wake(dead_replica);
+            }
             kill(new_dead_replica);
             dead_replica = new_dead_replica;
             dead_replica_time = test_time;

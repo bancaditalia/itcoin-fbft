@@ -59,12 +59,14 @@ bool Request::TryFindByDigest(uint32_t replica_id, const std::string req_digest,
 }
 
 bool Request::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const Request&>(other);
 
-  if (m_timestamp != typed_other.m_timestamp)
+  if (m_timestamp != typed_other.m_timestamp) {
     return false;
+  }
   return Message::equals(other);
 }
 

@@ -74,14 +74,17 @@ const std::string RoastPreSignature::digest() const {
 }
 
 bool RoastPreSignature::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const RoastPreSignature&>(other);
 
-  if (m_signers != typed_other.m_signers)
+  if (m_signers != typed_other.m_signers) {
     return false;
-  if (m_pre_signature != typed_other.m_pre_signature)
+  }
+  if (m_pre_signature != typed_other.m_pre_signature) {
     return false;
+  }
   return Message::equals(other);
 }
 

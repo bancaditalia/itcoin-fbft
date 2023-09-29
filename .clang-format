@@ -10,6 +10,7 @@ BasedOnStyle: LLVM
 #
 # The following are the project-specific rules
 ColumnLimit: 110
+InsertBraces: true
 # LineEnding: LF            # requires clang-format >= 16, and ubuntu 22.04 has clang-format 15 at best
 # InsertNewlineAtEOF: true  # requires clang-format >= 16, and ubuntu 22.04 has clang-format 15 at best
 PointerAlignment: Left

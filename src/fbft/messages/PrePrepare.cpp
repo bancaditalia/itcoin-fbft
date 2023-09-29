@@ -75,18 +75,23 @@ messages::PrePrepare PrePrepare::FindByV_N_Req(uint32_t replica_id, uint32_t v, 
 }
 
 bool PrePrepare::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const PrePrepare&>(other);
 
-  if (m_view != typed_other.m_view)
+  if (m_view != typed_other.m_view) {
     return false;
-  if (m_seq_number != typed_other.m_seq_number)
+  }
+  if (m_seq_number != typed_other.m_seq_number) {
     return false;
-  if (m_req_digest != typed_other.m_req_digest)
+  }
+  if (m_req_digest != typed_other.m_req_digest) {
     return false;
-  if (m_proposed_block.GetHash() != typed_other.m_proposed_block.GetHash())
+  }
+  if (m_proposed_block.GetHash() != typed_other.m_proposed_block.GetHash()) {
     return false;
+  }
   return Message::equals(other);
 }
 

@@ -38,18 +38,21 @@ ViewChange::ViewChange(PlTerm Sender_id, PlTerm V, PlTerm Hi, PlTerm C, PlTerm P
   PlTail P_tail{Pi};
   PlTerm P_elem;
   while (P_tail.next(P_elem)) {
-    if (string("[|]").compare(P_elem.name()) != 0 || P_elem.arity() != 2)
+    if (string("[|]").compare(P_elem.name()) != 0 || P_elem.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message P_elem term must have arity = 2");
+    }
     uint32_t p_n = (long)P_elem[1];
     PlTerm P_elem_2 = P_elem[2];
 
-    if (string("[|]").compare(P_elem_2.name()) != 0 || P_elem_2.arity() != 2)
+    if (string("[|]").compare(P_elem_2.name()) != 0 || P_elem_2.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message P_elem_2 term must have arity = 2");
+    }
     std::string p_req_digest{(char*)P_elem_2[1]};
     PlTerm P_elem_3 = P_elem_2[2];
 
-    if (string("[|]").compare(P_elem_3.name()) != 0 || P_elem_3.arity() != 2)
+    if (string("[|]").compare(P_elem_3.name()) != 0 || P_elem_3.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message P_elem_3 term must have arity = 2");
+    }
     uint32_t p_v = (long)P_elem_3[1];
     PlTerm P_elem_4 = P_elem_3[2];
     assert(P_elem_4.type() == PL_NIL); // Prolog lists end with empty list, the constant []
@@ -60,23 +63,27 @@ ViewChange::ViewChange(PlTerm Sender_id, PlTerm V, PlTerm Hi, PlTerm C, PlTerm P
   PlTail Q_tail{Qi};
   PlTerm Q_elem;
   while (Q_tail.next(Q_elem)) {
-    if (string("[|]").compare(Q_elem.name()) != 0 || Q_elem.arity() != 2)
+    if (string("[|]").compare(Q_elem.name()) != 0 || Q_elem.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message Q_elem term must have arity = 2");
+    }
     uint32_t q_n = (long)Q_elem[1];
     PlTerm Q_elem_2 = Q_elem[2];
 
-    if (string("[|]").compare(Q_elem_2.name()) != 0 || Q_elem_2.arity() != 2)
+    if (string("[|]").compare(Q_elem_2.name()) != 0 || Q_elem_2.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message Q_elem_2 term must have arity = 2");
+    }
     std::string q_req_digest{(char*)Q_elem_2[1]};
     PlTerm Q_elem_3 = Q_elem_2[2];
 
-    if (string("[|]").compare(Q_elem_3.name()) != 0 || Q_elem_3.arity() != 2)
+    if (string("[|]").compare(Q_elem_3.name()) != 0 || Q_elem_3.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message Q_elem_3 term must have arity = 2");
+    }
     std::string q_prep_block{(char*)Q_elem_3[1]};
     PlTerm Q_elem_4 = Q_elem_3[2];
 
-    if (string("[|]").compare(Q_elem_4.name()) != 0 || Q_elem_4.arity() != 2)
+    if (string("[|]").compare(Q_elem_4.name()) != 0 || Q_elem_4.arity() != 2) {
       throw std::runtime_error("VIEW_CHANGE message Q_elem_4 term must have arity = 2");
+    }
     uint32_t q_v = (long)Q_elem_4[1];
     PlTerm Q_elem_5 = Q_elem_4[2]; // Prolog lists end with empty list, the constant []
     assert(Q_elem_5.type() == PL_NIL);
@@ -118,20 +125,26 @@ messages::ViewChange ViewChange::FindByDigest(uint32_t replica_id, uint32_t send
 }
 
 bool ViewChange::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
+  }
   auto typed_other = static_cast<const ViewChange&>(other);
 
-  if (m_view != typed_other.m_view)
+  if (m_view != typed_other.m_view) {
     return false;
-  if (m_hi != typed_other.m_hi)
+  }
+  if (m_hi != typed_other.m_hi) {
     return false;
-  if (m_c != typed_other.m_c)
+  }
+  if (m_c != typed_other.m_c) {
     return false;
-  if (m_pi != typed_other.m_pi)
+  }
+  if (m_pi != typed_other.m_pi) {
     return false;
-  if (m_qi != typed_other.m_qi)
+  }
+  if (m_qi != typed_other.m_qi) {
     return false;
+  }
   return Message::equals(other);
 }
 

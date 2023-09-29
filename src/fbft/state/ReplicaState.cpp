@@ -336,9 +336,9 @@ double ReplicaState::latest_request_time() const {
   PlTerm Max_t;
   int result =
       prolog_engine_one_shot_call("get_latest_request_time", PlTermv(PlTerm{(long)m_conf.id()}, Max_t));
-  if (result)
+  if (result) {
     return (double)Max_t;
-  else {
+  } else {
     return m_conf.genesis_block_timestamp();
   }
 }
@@ -346,9 +346,9 @@ double ReplicaState::latest_request_time() const {
 double ReplicaState::latest_reply_time() const {
   PlTerm Last_rep_t;
   int result = prolog_engine_one_shot_call("last_rep", PlTermv(PlTerm{(long)m_conf.id()}, Last_rep_t));
-  if (result)
+  if (result) {
     return (double)Last_rep_t;
-  else {
+  } else {
     return m_conf.genesis_block_timestamp();
   }
 }

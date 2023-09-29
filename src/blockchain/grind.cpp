@@ -14,8 +14,9 @@ void grind_task(uint32_t nBits, CBlockHeader& header_orig, uint32_t offset, uint
   arith_uint256 target;
   bool neg, over;
   target.SetCompact(nBits, &neg, &over);
-  if (target == 0 || neg || over)
+  if (target == 0 || neg || over) {
     return;
+  }
   CBlockHeader header = header_orig; // working copy
   header.nNonce = offset;
 

@@ -41,14 +41,18 @@ const std::string Message::digest() const {
 }
 
 bool Message::equals(const Message& other) const {
-  if (typeid(*this) != typeid(other))
+  if (typeid(*this) != typeid(other)) {
     return false;
-  if (m_sender_role != other.m_sender_role)
+  }
+  if (m_sender_role != other.m_sender_role) {
     return false;
-  if (m_sender_id != other.m_sender_id)
+  }
+  if (m_sender_id != other.m_sender_id) {
     return false;
-  if (m_signature != other.m_signature)
+  }
+  if (m_signature != other.m_signature) {
     return false;
+  }
   return true;
 }
 
