@@ -9,6 +9,7 @@ RUN apt update && apt install --no-install-recommends -y \
     automake \
     bsdextrautils \
     ca-certificates \
+    clang-format-15 \
     cmake \
     g++ \
     gcc \
@@ -38,11 +39,17 @@ RUN apt install --no-install-recommends -y \
     libzmq3-dev \
     swi-prolog
 
+# link clang-format-15 as clang-format
+RUN update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-15 10 && \
+    update-alternatives --set clang-format /usr/bin/clang-format-15
+
 RUN mkdir /itcoin-fbft
 
 WORKDIR /itcoin-fbft
 
 COPY . /itcoin-fbft
+
+RUN make check-code-formatting
 
 RUN mkdir /itcoin-fbft/build
 

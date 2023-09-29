@@ -6,10 +6,7 @@
 namespace itcoin {
 namespace blockchain {
 
-Blockchain::Blockchain(const itcoin::FbftConfig& conf):
-m_conf(conf)
-{
-}
+Blockchain::Blockchain(const itcoin::FbftConfig& conf) : m_conf(conf) {}
 
-}
-}
+} // namespace blockchain
+} // namespace itcoin

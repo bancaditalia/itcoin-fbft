@@ -3,16 +3,16 @@
 
 #include "fixtures.h"
 
-ReplicaStateFixture::ReplicaStateFixture(uint32_t cluster_size, uint32_t genesis_block_timestamp, uint32_t target_block_time):
-PrologTestFixture(), CLUSTER_SIZE(cluster_size), GENESIS_BLOCK_TIMESTAMP(genesis_block_timestamp), TARGET_BLOCK_TIME(target_block_time)
-{
+ReplicaStateFixture::ReplicaStateFixture(uint32_t cluster_size, uint32_t genesis_block_timestamp,
+                                         uint32_t target_block_time)
+    : PrologTestFixture(), CLUSTER_SIZE(cluster_size), GENESIS_BLOCK_TIMESTAMP(genesis_block_timestamp),
+      TARGET_BLOCK_TIME(target_block_time) {
   BOOST_LOG_TRIVIAL(trace) << "Setup fixture ReplicaSetFixture";
   m_blockchain_config = std::make_unique<itcoin::FbftConfig>("infra/node00");
   m_blockchain_config->set_genesis_block_timestamp(GENESIS_BLOCK_TIMESTAMP);
   m_blockchain = std::make_unique<DummyBlockchain>(*m_blockchain_config);
 
-  for (int i = 0; i < CLUSTER_SIZE; i++)
-  {
+  for (int i = 0; i < CLUSTER_SIZE; i++) {
     auto config = std::make_unique<itcoin::FbftConfig>("infra/node00");
     config->set_replica_id(i);
     config->set_cluster_size(CLUSTER_SIZE);
@@ -29,18 +29,16 @@ PrologTestFixture(), CLUSTER_SIZE(cluster_size), GENESIS_BLOCK_TIMESTAMP(genesis
     std::string start_hash = m_configs.at(i)->genesis_block_hash();
     uint32_t start_height = 0;
     uint32_t start_time = m_configs.at(i)->genesis_block_timestamp();
-    std::unique_ptr<ReplicaState> state =
-        std::make_unique<ReplicaState>(*m_configs.at(i), *m_blockchain, *m_wallets.at(i), start_height, start_hash, start_time);
+    std::unique_ptr<ReplicaState> state = std::make_unique<ReplicaState>(
+        *m_configs.at(i), *m_blockchain, *m_wallets.at(i), start_height, start_hash, start_time);
     state->set_synthetic_time(0);
 
     m_states.emplace_back(move(state));
   }
 }
 
-void ReplicaStateFixture::set_synthetic_time(double time)
-{
-  for (auto &p_state : m_states)
-  {
+void ReplicaStateFixture::set_synthetic_time(double time) {
+  for (auto& p_state : m_states) {
     p_state->set_synthetic_time(time);
   }
 }

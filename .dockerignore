@@ -22,10 +22,12 @@
 #       is explicitly mentioned in the Dockerfile) or will not grab it (if the
 #       file is indirectly referenced through a wildcard).
 
+!/.clang-format
 !/cmake
 !/CMakeLists.txt
 !/engine
 !/infra
+!/Makefile
 !/README.md
 !/scripts
 !/specs

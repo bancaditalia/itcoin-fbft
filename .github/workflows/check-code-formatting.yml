@@ -1,0 +1,27 @@
+name: Check code formatting
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_format:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup clang-format 15 (we'd like 16, but as of 2023-09-29 it's not there)
+        run: |
+          # TODO: once clang-16 becomes available, please enable the rules that
+          # are currently commented in <BASE>/.clang_format
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-15 10
+          sudo update-alternatives --set clang-format /usr/bin/clang-format-15
+      - name: Checkout itcoin-fbft
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: check code formatting
+        run: |
+          make check-code-formatting

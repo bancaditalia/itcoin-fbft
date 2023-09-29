@@ -10,11 +10,10 @@
 #include <util/strencodings.h>
 #include <version.h>
 
+namespace itcoin {
+namespace blockchain {
 
-namespace itcoin { namespace blockchain {
-
-void appendSignetSolution(CBlock *block, std::vector<unsigned char> signetSolution)
-{
+void appendSignetSolution(CBlock* block, std::vector<unsigned char> signetSolution) {
   /*
    * Append the signet solution
    *
@@ -51,9 +50,8 @@ void appendSignetSolution(CBlock *block, std::vector<unsigned char> signetSoluti
   block->vtx[0] = MakeTransactionRef(tx);
 }
 
-
-std::pair<CMutableTransaction, CMutableTransaction> signetTxs(const CBlock& block, const std::string& signetChallengeHex)
-{
+std::pair<CMutableTransaction, CMutableTransaction> signetTxs(const CBlock& block,
+                                                              const std::string& signetChallengeHex) {
   // assumes signet solution has not been added yet so does not need to be removed
   // ITCOIN_SPECIFIC START
   // assumes SIGNET_HEADER has already been added so does not need to be added here
@@ -112,5 +110,5 @@ std::pair<CMutableTransaction, CMutableTransaction> signetTxs(const CBlock& bloc
   return std::make_pair(spend, to_spend);
 } // signetTxs()
 
-
-}} // namespace itcoin::blockchain
+} // namespace blockchain
+} // namespace itcoin

@@ -5,36 +5,36 @@
 
 #include <boost/log/trivial.hpp>
 
-#include "utils/utils.h"
 #include "../src/blockchain/blockchain.h"
+#include "../src/fbft/Replica2.h"
+#include "../src/fbft/messages/messages.h"
 #include "../src/transport/btcclient.h"
 #include "../src/transport/zcomm.h"
 #include "../src/wallet/wallet.h"
-#include "../src/fbft/messages/messages.h"
-#include "../src/fbft/Replica2.h"
+#include "utils/utils.h"
 
 #include <util/system.h>
 #include <util/translation.h>
 
-#include <generated/prolog_fbft_engine/resource_db_mem.h>
 #include <SWI-cpp.h>
+#include <generated/prolog_fbft_engine/resource_db_mem.h>
 
 using namespace itcoin;
 
 const std::function<std::string(const char*)> G_TRANSLATION_FUN = nullptr;
 
-const std::string DEFAULT_DATADIR = (std::filesystem::current_path() / "infra" / "node02" ).string();
+const std::string DEFAULT_DATADIR = (std::filesystem::current_path() / "infra" / "node02").string();
 
 /**
  * Returns:
  * - datadir
  */
-std::tuple<std::string> parse_cmdline(int argc, char* argv[])
-{
+std::tuple<std::string> parse_cmdline(int argc, char* argv[]) {
   // Configure the command line args
   ArgsManager argsManager;
 
-  argsManager.AddArg("-datadir=<dir>", "Specify data directory", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+  argsManager.AddArg("-datadir=<dir>", "Specify data directory", ArgsManager::ALLOW_ANY,
+                     OptionsCategory::OPTIONS);
 
   // Parse the command line args
   std::string error;
@@ -49,11 +49,11 @@ std::tuple<std::string> parse_cmdline(int argc, char* argv[])
   return {datadir};
 } // parse_cmdline()
 
-int main(int argc, char* argv[])
-{
+int main(int argc, char* argv[]) {
   // Init prolog engine
   PL_set_resource_db_mem(resource_db_mem_bin, resource_db_mem_bin_len);
-  char *argv2[] = {(char*)"thisisnonsense", (char*)"-f", (char*)"none", (char*)"-F", (char*)"none", (char*)"-g", (char*)"true"};
+  char* argv2[] = {(char*)"thisisnonsense", (char*)"-f", (char*)"none", (char*)"-F",
+                   (char*)"none",           (char*)"-g", (char*)"true"};
   PlEngine engine(7, argv2);
 
   // Setup logger
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
   std::unique_ptr<wallet::RoastWallet> pWallet;
   pWallet = std::make_unique<itcoin::wallet::RoastWalletImpl>(config, btc_client);
 
-  //network::NetworkTransport& transport
+  // network::NetworkTransport& transport
 
   transport::ZComm zcomm{config};
 
@@ -84,33 +84,28 @@ int main(int argc, char* argv[])
 
   std::string start_hash = config.genesis_block_hash();
   uint32_t start_time = config.genesis_block_timestamp();
-  if (start_height>0)
-  {
+  if (start_height > 0) {
     start_hash = current_blockchain_info["bestblockhash"].asString();
     start_time = current_blockchain_info["time"].asUInt();
   }
 
-  fbft::Replica2 replica{
-    config,
-    blockchain,
-    *pWallet,
-    zcomm,
-    start_height,
-    start_hash,
-    start_time
-  };
+  fbft::Replica2 replica{config, blockchain, *pWallet, zcomm, start_height, start_hash, start_time};
 
   // Start the replica
-  zcomm.replica_message_received.connect([&replica](const std::string& group_name, const std::string& bin_buffer) {
-    auto p_msg = fbft::messages::Message::BuildFromBinBuffer(bin_buffer);
-    // TODO: far ritornare direttamente unique_ptr e fare check per nullptr
-    replica.ReceiveIncomingMessage(std::move(p_msg.value()));
-  });
+  zcomm.replica_message_received.connect(
+      [&replica](const std::string& group_name, const std::string& bin_buffer) {
+        auto p_msg = fbft::messages::Message::BuildFromBinBuffer(bin_buffer);
+        // TODO: far ritornare direttamente unique_ptr e fare check per nullptr
+        replica.ReceiveIncomingMessage(std::move(p_msg.value()));
+      });
 
-  zcomm.itcoinblock_received.connect([&replica](const std::string& hash_hex_string, int32_t block_height, uint32_t block_time, uint32_t seq_number) {
-      BOOST_LOG_TRIVIAL(info) << "Ricevuto nuovo blocco. Hash: " << hash_hex_string << ", altezza: " << block_height << ", block_time: " << block_time << ", seq_number " << seq_number;
-      auto p_msg = std::make_unique<fbft::messages::Block>(block_height, block_time, hash_hex_string);
-      replica.ReceiveIncomingMessage(std::move(p_msg));
+  zcomm.itcoinblock_received.connect([&replica](const std::string& hash_hex_string, int32_t block_height,
+                                                uint32_t block_time, uint32_t seq_number) {
+    BOOST_LOG_TRIVIAL(info) << "Ricevuto nuovo blocco. Hash: " << hash_hex_string
+                            << ", altezza: " << block_height << ", block_time: " << block_time
+                            << ", seq_number " << seq_number;
+    auto p_msg = std::make_unique<fbft::messages::Block>(block_height, block_time, hash_hex_string);
+    replica.ReceiveIncomingMessage(std::move(p_msg));
   });
 
   zcomm.network_timeout_expired.connect([&replica]() {

@@ -55,21 +55,18 @@ std::string byteVector2string(const std::vector<uint8_t>& byteVector);
  *
  * C++23 will probably make this obsolete thanks to std::to_underlying().
  *
- * source: https://stackoverflow.com/questions/8357240/how-to-automatically-convert-strongly-typed-enum-into-int#33083231
+ * source:
+ * https://stackoverflow.com/questions/8357240/how-to-automatically-convert-strongly-typed-enum-into-int#33083231
  */
-template <typename E>
-constexpr auto enumToUnderlying(E e) noexcept
-{
-    return static_cast<std::underlying_type_t<E>>(e);
+template <typename E> constexpr auto enumToUnderlying(E e) noexcept {
+  return static_cast<std::underlying_type_t<E>>(e);
 } // enumToUnderlying()
 
 /**
  * Returns a string representation of value e of enum class type E.
  */
-template <typename E>
-constexpr auto enumValueToString(E e) noexcept
-{
-    return std::to_string(static_cast<std::underlying_type_t<E>>(e));
+template <typename E> constexpr auto enumValueToString(E e) noexcept {
+  return std::to_string(static_cast<std::underlying_type_t<E>>(e));
 } // enumValueToString()
 
 /**
@@ -81,12 +78,12 @@ std::string join(const std::vector<std::string>& sequence, const std::string& se
 
 unsigned int stoui(const std::string& str, std::size_t* pos = nullptr, int base = 10);
 
-std::string checkHash(const std::string &hashStr);
-std::string checkHex(const std::string &hexStr);
-
+std::string checkHash(const std::string& hashStr);
+std::string checkHex(const std::string& hexStr);
 
 /**
- * source: https://stackoverflow.com/questions/81870/is-it-possible-to-print-a-variables-type-in-standard-c/56766138#56766138
+ * source:
+ * https://stackoverflow.com/questions/81870/is-it-possible-to-print-a-variables-type-in-standard-c/56766138#56766138
  *
  * Returns a string_view of the type of the passed expression, computed at
  * compile time.
@@ -110,8 +107,7 @@ std::string checkHex(const std::string &hexStr);
  *   std::cout << type_name<decltype((ci))>() << '\n'; // "const int&"
  * }
  */
-template <typename T>
-constexpr auto type_name() {
+template <typename T> constexpr auto type_name() {
   std::string_view name, prefix, suffix;
 #ifdef __clang__
   name = __PRETTY_FUNCTION__;
@@ -134,4 +130,4 @@ constexpr auto type_name() {
 } // namespace utils
 } // namespace itcoin
 
-#endif //FBFT_UTILS_H_
+#endif // FBFT_UTILS_H_

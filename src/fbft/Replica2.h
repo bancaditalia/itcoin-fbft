@@ -18,34 +18,27 @@ namespace state = itcoin::fbft::state;
 namespace itcoin {
 namespace fbft {
 
-class Replica2: public network::NetworkListener, public state::ReplicaState
-{
-  public:
-    Replica2(
-      const itcoin::FbftConfig& config,
-      blockchain::Blockchain& blockchain,
-      wallet::RoastWallet& wallet,
-      network::NetworkTransport& transport,
-      uint32_t start_height,
-      std::string start_hash,
-      uint32_t start_time
-    );
+class Replica2 : public network::NetworkListener, public state::ReplicaState {
+public:
+  Replica2(const itcoin::FbftConfig& config, blockchain::Blockchain& blockchain, wallet::RoastWallet& wallet,
+           network::NetworkTransport& transport, uint32_t start_height, std::string start_hash,
+           uint32_t start_time);
 
-    // Getters
-    const uint32_t id() const;
+  // Getters
+  const uint32_t id() const;
 
-    // Operations
-    void ReceiveIncomingMessage(std::unique_ptr<messages::Message> msg);
-    void CheckTimedActions();
+  // Operations
+  void ReceiveIncomingMessage(std::unique_ptr<messages::Message> msg);
+  void CheckTimedActions();
 
-  private:
-    network::NetworkTransport& m_transport;
+private:
+  network::NetworkTransport& m_transport;
 
-    void GenerateRequests();
-    void ApplyActiveActions();
+  void GenerateRequests();
+  void ApplyActiveActions();
 };
 
-}
-}
+} // namespace fbft
+} // namespace itcoin
 
 #endif // ITCOIN_FBFT_REPLICA_2_H

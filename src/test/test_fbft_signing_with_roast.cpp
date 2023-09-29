@@ -11,21 +11,20 @@
 namespace utf = boost::unit_test;
 namespace state = itcoin::fbft::state;
 
-struct V5FrostedBftFixture: ReplicaStateFixture { V5FrostedBftFixture(): ReplicaStateFixture(4,0,60) {} };
+struct V5FrostedBftFixture : ReplicaStateFixture {
+  V5FrostedBftFixture() : ReplicaStateFixture(4, 0, 60) {}
+};
 
 BOOST_AUTO_TEST_SUITE(test_fbft_signing_with_roast, *utf::enabled())
 
-BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
-{
-  boost::log::core::get()->set_filter (
-    boost::log::trivial::severity >= boost::log::trivial::trace
-  );
+BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture) {
+  boost::log::core::get()->set_filter(boost::log::trivial::severity >= boost::log::trivial::trace);
 
   // Receive REQUEST at all replicas
   uint32_t REQ_TS = 60;
-  Request request = Request(m_configs[0]->genesis_block_timestamp(), m_configs[0]->target_block_time(), REQ_TS);
-  for (int i=0; i<4; i++)
-  {
+  Request request =
+      Request(m_configs[0]->genesis_block_timestamp(), m_configs[0]->target_block_time(), REQ_TS);
+  for (int i = 0; i < 4; i++) {
     m_states[i]->Apply(ReceiveRequest(i, request));
   }
 
@@ -42,28 +41,23 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
   PrePrepare pre_prepare_0{dynamic_cast<PrePrepare&>(*m_states[0]->out_msg_buffer().at(0))};
   m_states[0]->ClearOutMessageBuffer();
 
-  for (int rid=1; rid<4; rid++)
-  {
+  for (int rid = 1; rid < 4; rid++) {
     m_states[rid]->ReceiveIncomingMessage(std::make_unique<PrePrepare>(pre_prepare_0));
     m_states[rid]->Apply(*m_states[rid]->active_actions().at(0));
   }
 
   // Step 7. We apply the SEND_PREPARE to all replicas
 
-  for (int rid=1; rid<4; rid++)
-  {
+  for (int rid = 1; rid < 4; rid++) {
     m_states[rid]->Apply(*m_states[rid]->active_actions().at(0));
   }
 
   // Receive PREPARE at all replica
 
-  for (int sid=1; sid<4; sid++)
-  {
+  for (int sid = 1; sid < 4; sid++) {
     Prepare prepare{dynamic_cast<Prepare&>(*m_states[sid]->out_msg_buffer().at(0))};
-    for (int rid=0; rid<4; rid++)
-    {
-      if (rid != sid)
-      {
+    for (int rid = 0; rid < 4; rid++) {
+      if (rid != sid) {
         m_states[rid]->ReceiveIncomingMessage(std::make_unique<Prepare>(prepare));
         m_states[rid]->Apply(*m_states[rid]->active_actions().at(0));
       }
@@ -73,20 +67,16 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
 
   // Step 7. We apply the SEND_PREPARE to all replicas
 
-  for (int rid=0; rid<4; rid++)
-  {
+  for (int rid = 0; rid < 4; rid++) {
     m_states[rid]->Apply(*m_states[rid]->active_actions().at(0));
   }
 
   // Receive COMMIT at all replica
 
-  for (int sid=0; sid<4; sid++)
-  {
+  for (int sid = 0; sid < 4; sid++) {
     Commit commit{dynamic_cast<Commit&>(*m_states[sid]->out_msg_buffer().at(0))};
-    for (int rid=0; rid<4; rid++)
-    {
-      if (rid != sid)
-      {
+    for (int rid = 0; rid < 4; rid++) {
+      if (rid != sid) {
         m_states[rid]->ReceiveIncomingMessage(std::make_unique<Commit>(commit));
         m_states[rid]->Apply(*m_states[rid]->active_actions().at(0));
       }
@@ -96,8 +86,7 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
 
   // At this stage PRE_ROAST_INIT should be active for all replica
 
-  for (int rid=0; rid<4; rid++)
-  {
+  for (int rid = 0; rid < 4; rid++) {
     BOOST_TEST(m_states[rid]->out_msg_buffer().size() == 0u);
     BOOST_TEST(m_states[rid]->active_actions().size() == 1u);
     BOOST_CHECK(m_states[rid]->active_actions().at(0)->type() == ACTION_TYPE::ROAST_INIT);
@@ -134,13 +123,15 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
   m_states[0]->Apply(*m_states[0]->active_actions().at(0));
   BOOST_TEST(m_states[0]->out_msg_buffer().size() == 1u);
   BOOST_CHECK(m_states[0]->out_msg_buffer().at(0)->type() == MSG_TYPE::ROAST_SIGNATURE_SHARE);
-  RoastSignatureShare roast_sig_share_0{dynamic_cast<RoastSignatureShare&>(*m_states[0]->out_msg_buffer().at(0))};
+  RoastSignatureShare roast_sig_share_0{
+      dynamic_cast<RoastSignatureShare&>(*m_states[0]->out_msg_buffer().at(0))};
   m_states[0]->ClearOutMessageBuffer();
 
   m_states[2]->Apply(*m_states[2]->active_actions().at(0));
   BOOST_TEST(m_states[2]->out_msg_buffer().size() == 1u);
   BOOST_CHECK(m_states[2]->out_msg_buffer().at(0)->type() == MSG_TYPE::ROAST_SIGNATURE_SHARE);
-  RoastSignatureShare roast_sig_share_2{dynamic_cast<RoastSignatureShare&>(*m_states[2]->out_msg_buffer().at(0))};
+  RoastSignatureShare roast_sig_share_2{
+      dynamic_cast<RoastSignatureShare&>(*m_states[2]->out_msg_buffer().at(0))};
   m_states[2]->ClearOutMessageBuffer();
 
   // Coordinator R0 receives signature share from R0
@@ -175,13 +166,15 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
   m_states[0]->Apply(*m_states[0]->active_actions().at(0));
   BOOST_TEST(m_states[0]->out_msg_buffer().size() == 1u);
   BOOST_CHECK(m_states[0]->out_msg_buffer().at(0)->type() == MSG_TYPE::ROAST_SIGNATURE_SHARE);
-  RoastSignatureShare roast_sig_share_0_bis{dynamic_cast<RoastSignatureShare&>(*m_states[0]->out_msg_buffer().at(0))};
+  RoastSignatureShare roast_sig_share_0_bis{
+      dynamic_cast<RoastSignatureShare&>(*m_states[0]->out_msg_buffer().at(0))};
   m_states[0]->ClearOutMessageBuffer();
 
   m_states[2]->Apply(*m_states[2]->active_actions().at(0));
   BOOST_TEST(m_states[2]->out_msg_buffer().size() == 1u);
   BOOST_CHECK(m_states[2]->out_msg_buffer().at(0)->type() == MSG_TYPE::ROAST_SIGNATURE_SHARE);
-  RoastSignatureShare roast_sig_share_2_bis{dynamic_cast<RoastSignatureShare&>(*m_states[2]->out_msg_buffer().at(0))};
+  RoastSignatureShare roast_sig_share_2_bis{
+      dynamic_cast<RoastSignatureShare&>(*m_states[2]->out_msg_buffer().at(0))};
   m_states[2]->ClearOutMessageBuffer();
 
   m_states[0]->ReceiveIncomingMessage(std::make_unique<RoastSignatureShare>(roast_sig_share_0_bis));
@@ -201,18 +194,17 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_signing_with_roast_00, V5FrostedBftFixture)
   m_states[0]->Apply(*m_states[0]->active_actions().at(0));
 
   // Other replica should not have active actions
-  for (int rid=0; rid<4; rid++)
-  {
+  for (int rid = 0; rid < 4; rid++) {
     BOOST_TEST(m_states[rid]->active_actions().size() == 0u);
     BOOST_TEST(m_states[rid]->out_msg_buffer().size() == 0u);
   }
 
   // Finally propagate the block
 
-  Block propagated_block{pre_prepare_0.seq_number(), pre_prepare_0.proposed_block().nTime, pre_prepare_0.proposed_block().GetHash().GetHex()};
+  Block propagated_block{pre_prepare_0.seq_number(), pre_prepare_0.proposed_block().nTime,
+                         pre_prepare_0.proposed_block().GetHash().GetHex()};
 
-  for (int rid=0; rid<4; rid++)
-  {
+  for (int rid = 0; rid < 4; rid++) {
     m_states[rid]->ReceiveIncomingMessage(std::make_unique<Block>(propagated_block));
     BOOST_TEST(m_states[rid]->active_actions().size() == 1u);
     BOOST_TEST(m_states[rid]->out_msg_buffer().size() == 0u);

@@ -13,10 +13,11 @@
 #include <util/strencodings.h>
 
 #include "../transport/btcclient.h"
-#include "grind.h"
 #include "../utils/utils.h"
+#include "grind.h"
 
-namespace itcoin { namespace blockchain {
+namespace itcoin {
+namespace blockchain {
 
 const std::vector<unsigned char> WITNESS_COMMITMENT_HEADER = {0xaa, 0x21, 0xa9, 0xed};
 
@@ -24,13 +25,13 @@ const std::vector<unsigned char> WITNESS_COMMITMENT_HEADER = {0xaa, 0x21, 0xa9, 
  *
  * Get block template from the Bitcoin node with Signet and SegWit rules.
  *
- * This code mimics https://github.com/bancaditalia/itcoin-core/blob/2f37bb2000665da31e4f45ebcdbfd059b1f3b2df/contrib/signet/miner.py#L368
+ * This code mimics
+ * https://github.com/bancaditalia/itcoin-core/blob/2f37bb2000665da31e4f45ebcdbfd059b1f3b2df/contrib/signet/miner.py#L368
  *
  * @param bitcoindClient
  * @return the block template
  */
-Json::Value getSignetAndSegwitBlockTemplate(transport::BtcClient& bitcoindClient)
-{
+Json::Value getSignetAndSegwitBlockTemplate(transport::BtcClient& bitcoindClient) {
   Json::Value root;
   Json::Value rules;
 
@@ -45,10 +46,11 @@ Json::Value getSignetAndSegwitBlockTemplate(transport::BtcClient& bitcoindClient
  * Bitcoin script opcodes can represent numeric literals between 0 and 16
  * inclusive (0 is a special case). This function performs the encoding.
  */
-uint64_t encodeOpN(uint64_t number)
-{
-  if (not (0 <= number && number <= 16)) {
-    throw std::runtime_error("Only numbers between 0 and 16 inclusive can be represented as OP_XX opcodes. Got " + std::to_string(number));
+uint64_t encodeOpN(uint64_t number) {
+  if (not(0 <= number && number <= 16)) {
+    throw std::runtime_error(
+        "Only numbers between 0 and 16 inclusive can be represented as OP_XX opcodes. Got " +
+        std::to_string(number));
   }
 
   if (number == 0) {
@@ -58,8 +60,7 @@ uint64_t encodeOpN(uint64_t number)
   return OP_1 + number - 1;
 } // encodeOpN()
 
-CScript getScriptBIP34CoinbaseHeight(uint64_t height)
-{
+CScript getScriptBIP34CoinbaseHeight(uint64_t height) {
   CScript result = CScript();
 
   if (height <= 16) {
@@ -78,8 +79,7 @@ CScript getScriptBIP34CoinbaseHeight(uint64_t height)
   return result;
 } // getScriptBIP34CoinbaseHeight()
 
-CTransactionRef buildCoinbaseTransaction(uint64_t height, CAmount value, CScript scriptPubKey)
-{
+CTransactionRef buildCoinbaseTransaction(uint64_t height, CAmount value, CScript scriptPubKey) {
   auto tx = CMutableTransaction();
   tx.nVersion = 1;
   tx.vin.resize(1);
@@ -95,8 +95,7 @@ CTransactionRef buildCoinbaseTransaction(uint64_t height, CAmount value, CScript
   return MakeTransactionRef(tx);
 } // buildCoinbaseTransaction()
 
-CScript getScriptPubKey(transport::BtcClient& bitcoindClient, const std::string& address)
-{
+CScript getScriptPubKey(transport::BtcClient& bitcoindClient, const std::string& address) {
   // TODO avoid 'getaddressinfo' request by adding scriptPubKey of address in the configuration file
   const Json::Value addressInfo = bitcoindClient.getaddressinfo(address);
   const std::string scriptPubKeyHex = addressInfo["scriptPubKey"].asString();
@@ -107,16 +106,14 @@ CScript getScriptPubKey(transport::BtcClient& bitcoindClient, const std::string&
   return scriptPubKey;
 } // getScriptPubKey()
 
-CMutableTransaction TxFromHex(const std::string& str)
-{
+CMutableTransaction TxFromHex(const std::string& str) {
   CMutableTransaction tx;
   SpanReader{SER_NETWORK, PROTOCOL_VERSION, ParseHex(str)} >> tx;
 
   return tx;
 } // TxFromHex()
 
-CScript GetWitnessScript(uint256 witnessRoot, uint256 witnessNonce)
-{
+CScript GetWitnessScript(uint256 witnessRoot, uint256 witnessNonce) {
   const std::vector<unsigned char> witnessRootData(witnessRoot.begin(), witnessRoot.end());
   const std::vector<unsigned char> witnessNonceData(witnessNonce.begin(), witnessNonce.end());
   std::vector<unsigned char> concat;
@@ -136,8 +133,8 @@ CScript GetWitnessScript(uint256 witnessRoot, uint256 witnessNonce)
   return CScript() << OP_RETURN << data;
 } // GetWitnessScript()
 
-CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& address, uint32_t block_timestamp)
-{
+CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& address,
+                     uint32_t block_timestamp) {
   // create block template - START
   Json::Value blockTemplate;
   std::string previousBlockHash;
@@ -181,22 +178,19 @@ CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& ad
       "Network-adjusted time" is the median of the timestamps returned by all nodes connected to you.
       As a result block timestamps are not exactly accurate, and they do not need to be.
       Block times are accurate only to within an hour or two.
-      Whenever a node connects to another node, it gets a UTC timestamp from it, and stores its offset from node-local UTC.
-      The network-adjusted time is then the node-local UTC plus the median offset from all connected nodes.
-      Network time is never adjusted more than 70 minutes from local system time, however.
+      Whenever a node connects to another node, it gets a UTC timestamp from it, and stores its offset from
+      node-local UTC. The network-adjusted time is then the node-local UTC plus the median offset from all
+      connected nodes. Network time is never adjusted more than 70 minutes from local system time, however.
 
       WAS:
 
       const uint32_t curTime = blockTemplate["curtime"].asUInt();
       block.nTime = curTime < minTime? minTime: curTime;
     */
-    if (block_timestamp<minTime)
-    {
-      std::string error_msg = str(
-        boost::format("generate::generateBlock timestamp below minTime: %1%, block_timestamp %2%")
-          % minTime
-          % block_timestamp
-      );
+    if (block_timestamp < minTime) {
+      std::string error_msg =
+          str(boost::format("generate::generateBlock timestamp below minTime: %1%, block_timestamp %2%") %
+              minTime % block_timestamp);
       throw std::runtime_error(error_msg);
     }
     block.nTime = block_timestamp;
@@ -224,7 +218,9 @@ CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& ad
       block.vtx[index] = MakeTransactionRef(currentTx);
     }
 
-    BOOST_LOG_TRIVIAL(trace) << "Block merkle root (function which includes signatures) after block creation: " << BlockMerkleRoot(block).GetHex();
+    BOOST_LOG_TRIVIAL(trace)
+        << "Block merkle root (function which includes signatures) after block creation: "
+        << BlockMerkleRoot(block).GetHex();
   } // create block - END
 
   // append the witness commitment - START
@@ -257,7 +253,9 @@ CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& ad
       block.vtx[0] = coinbaseTx;
     }
 
-    BOOST_LOG_TRIVIAL(trace) << "Block merkle root (function which includes signatures) after appending witness commitment: " << BlockMerkleRoot(block).GetHex();
+    BOOST_LOG_TRIVIAL(trace)
+        << "Block merkle root (function which includes signatures) after appending witness commitment: "
+        << BlockMerkleRoot(block).GetHex();
   } // append the witness commitment - END
 
   // append the SIGNET_HEADER - START
@@ -283,8 +281,11 @@ CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& ad
     const uint256 newBlockMerkleRoot = BlockMerkleRoot(block);
     block.hashMerkleRoot = newBlockMerkleRoot;
 
-    BOOST_LOG_TRIVIAL(trace) << "Block witness commitment after appending signet header: " << HexStr(newOutScript);
-    BOOST_LOG_TRIVIAL(trace) << "Block merkle root (function which includes signatures) after appending signet header: " << newBlockMerkleRoot.GetHex();
+    BOOST_LOG_TRIVIAL(trace) << "Block witness commitment after appending signet header: "
+                             << HexStr(newOutScript);
+    BOOST_LOG_TRIVIAL(trace)
+        << "Block merkle root (function which includes signatures) after appending signet header: "
+        << newBlockMerkleRoot.GetHex();
   } // append the SIGNET_HEADER - END
 
   // mine block - START
@@ -306,11 +307,13 @@ CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& ad
     dataStream >> newHeader;
     block.nNonce = newHeader.nNonce;
 
-    BOOST_LOG_TRIVIAL(trace) << "Block merkle root (function which includes signatures) after mining: " << BlockMerkleRoot(block).GetHex();
+    BOOST_LOG_TRIVIAL(trace) << "Block merkle root (function which includes signatures) after mining: "
+                             << BlockMerkleRoot(block).GetHex();
     BOOST_LOG_TRIVIAL(trace) << "Grinded block: " << block.ToString();
   } // mine block - END
 
   return block;
 } // generateBlock()
 
-}} // namespace itcoin::blockchain
+} // namespace blockchain
+} // namespace itcoin

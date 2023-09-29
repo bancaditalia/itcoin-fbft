@@ -6,9 +6,7 @@
 namespace itcoin {
 namespace network {
 
-NetworkListener::NetworkListener()
-{
-}
+NetworkListener::NetworkListener() {}
 
-}
-}
+} // namespace network
+} // namespace itcoin

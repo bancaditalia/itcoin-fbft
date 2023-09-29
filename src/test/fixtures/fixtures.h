@@ -6,8 +6,8 @@
 
 #include <boost/format.hpp>
 #include <boost/log/trivial.hpp>
-#include <boost/test/unit_test.hpp>
 #include <boost/test/results_collector.hpp>
+#include <boost/test/unit_test.hpp>
 /*
  * As of boost 1.75, boost::process relies on boost::filesystem and is not able
  * to deal with std::filesystem
@@ -19,11 +19,11 @@
 
 #include <iomanip>
 
-#include "config/FbftConfig.h"
 #include "../../fbft/Replica2.h"
 #include "../../fbft/actions/actions.h"
 #include "../../fbft/state/state.h"
 #include "../../transport/btcclient.h"
+#include "config/FbftConfig.h"
 
 #include "../stubs/stubs.h"
 
@@ -35,8 +35,7 @@ using namespace itcoin::fbft::messages;
 using namespace itcoin::fbft::state;
 using namespace itcoin::test;
 
-struct BtcClientFixture
-{
+struct BtcClientFixture {
   itcoin::FbftConfig cfgNode0;
   itcoin::transport::BtcClient bitcoind0;
 
@@ -44,8 +43,7 @@ struct BtcClientFixture
   ~BtcClientFixture();
 };
 
-struct BitcoinRpcTestFixture
-{
+struct BitcoinRpcTestFixture {
   BitcoinRpcTestFixture();
   ~BitcoinRpcTestFixture();
   std::string address_at(uint32_t replica_id);
@@ -57,14 +55,12 @@ struct BitcoinRpcTestFixture
   std::vector<std::unique_ptr<itcoin::blockchain::BitcoinBlockchain>> m_blockchains;
 };
 
-struct PrologTestFixture
-{
+struct PrologTestFixture {
   PrologTestFixture();
   ~PrologTestFixture();
 };
 
-struct ReplicaStateFixture : PrologTestFixture
-{
+struct ReplicaStateFixture : PrologTestFixture {
   ReplicaStateFixture(uint32_t cluster_size, uint32_t genesis_block_timestamp, uint32_t target_block_time);
 
   void set_synthetic_time(double time);
@@ -82,8 +78,7 @@ struct ReplicaStateFixture : PrologTestFixture
   std::vector<std::unique_ptr<ReplicaState>> m_states;
 }; // ReplicaStateFixture
 
-struct ReplicaSetFixture : ReplicaStateFixture
-{
+struct ReplicaSetFixture : ReplicaStateFixture {
   ReplicaSetFixture(uint32_t cluster_size, uint32_t genesis_block_timestamp, uint32_t target_block_time);
 
   void kill(uint32_t replica_id);
@@ -94,8 +89,7 @@ struct ReplicaSetFixture : ReplicaStateFixture
   std::vector<std::shared_ptr<Replica2>> m_replica;
 };
 
-struct BitcoinInfraFixture : public BitcoinRpcTestFixture
-{
+struct BitcoinInfraFixture : public BitcoinRpcTestFixture {
 
   std::vector<boost::process::child> nodes;
   boost::filesystem::path currentDirectory;
@@ -109,7 +103,7 @@ struct BitcoinInfraFixture : public BitcoinRpcTestFixture
 
   void resetBlockchain(boost::filesystem::path bitcoinDir);
 
-  void stopProc(boost::process::child &nodeProc);
+  void stopProc(boost::process::child& nodeProc);
 
   uint32_t get_present_block_time();
 
