@@ -1,0 +1,16 @@
+# Copyright (c) 2023 Bank of Italy
+# Distributed under the GNU AGPLv3 software license, see the accompanying COPYING file.
+
+---
+Language: Cpp
+BasedOnStyle: LLVM
+
+# The rules of the base style above can be explicitly viewed via:
+#     clang-format --style llvm --dump-config
+#
+# The following are the project-specific rules
+ColumnLimit: 110
+# LineEnding: LF            # requires clang-format >= 16, and ubuntu 22.04 has clang-format 15 at best
+# InsertNewlineAtEOF: true  # requires clang-format >= 16, and ubuntu 22.04 has clang-format 15 at best
+PointerAlignment: Left
+...

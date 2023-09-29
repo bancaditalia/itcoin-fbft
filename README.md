@@ -1,6 +1,7 @@
 # Frosted Byzantine Fault Tolerance (FBFT)
 
 [![tests](https://github.com/bancaditalia/itcoin-fbft/actions/workflows/test-itcoin-fbft.yml/badge.svg?branch=main&event=push)](https://github.com/bancaditalia/itcoin-fbft/actions/workflows/test-itcoin-fbft.yml)
+[![clang-format](https://github.com/bancaditalia/itcoin-fbft/actions/workflows/check-code-formatting.yml/badge.svg?branch=main&event=push)](https://github.com/bancaditalia/itcoin-fbft/actions/workflows/check-code-formatting.yml)
 
 This repository contains the implementation of an itcoin "consensus node",
 which implements the Frosted Byzantine Fault Tolerance (FBFT) Proof-of-Authority consensus algorithm for the **itcoin** blockchain.
@@ -14,12 +15,15 @@ Please note that this software is solely intended for testing and experimentatio
 
 1. Install build and dev dependencies with apt (system-wide):
 
+TODO: add documentation about clang-format in this file
+
 ```
 sudo apt install --no-install-recommends -y \
     autoconf \
     automake \
     bsdextrautils \
     ca-certificates \
+    clang-format-15 \
     cmake \
     g++ \
     gcc \
