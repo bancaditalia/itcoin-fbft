@@ -7,6 +7,7 @@ FROM fedora:38
 RUN dnf install -y \
     autoconf \
     automake \
+    clang-tools-extra \
     cmake \
     g++ \
     gcc \
@@ -47,6 +48,8 @@ RUN mkdir /itcoin-fbft
 WORKDIR /itcoin-fbft
 
 COPY . /itcoin-fbft
+
+RUN make check-code-formatting
 
 RUN mkdir /itcoin-fbft/build
 
