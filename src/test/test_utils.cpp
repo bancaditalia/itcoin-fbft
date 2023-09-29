@@ -94,7 +94,13 @@ BOOST_DATA_TEST_CASE(
 BOOST_DATA_TEST_CASE(
   test_string2byteVector_round_trip,
   bdata::make({
+    // clang-format off
+    //
+    // clang-format <= 15 is not able to deal with this emoticon as-is.
+    // Let's disable it.
+    // This exception could be removed once we migrate to clang-format >= 16.
     string("🥸hello"),         // emoticon
+    // clang-format on
     string("\x00\x00\x00", 3), // manyNulls
     string("\x00\xfe\xff", 3), // nonNullTerminated
   }),
