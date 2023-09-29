@@ -6,15 +6,20 @@
 
 #include <primitives/block.h>
 
-namespace itcoin { namespace transport {
-  class BtcClient;
-}} // namespace itcoin::transport
+namespace itcoin {
+namespace transport {
+class BtcClient;
+}
+} // namespace itcoin
 
-namespace itcoin { namespace blockchain {
+namespace itcoin {
+namespace blockchain {
 
-void appendSignetSolution(CBlock *block, std::vector<unsigned char> signetSolution);
-std::pair<CMutableTransaction, CMutableTransaction> signetTxs(const CBlock& block, const std::string& signetChallengeHex);
+void appendSignetSolution(CBlock* block, std::vector<unsigned char> signetSolution);
+std::pair<CMutableTransaction, CMutableTransaction> signetTxs(const CBlock& block,
+                                                              const std::string& signetChallengeHex);
 
-}} // namespace itcoin::blockchain
+} // namespace blockchain
+} // namespace itcoin
 
 #endif // ITCOIN_BLOCKCHAIN_EXTRACT_H

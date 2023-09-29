@@ -8,10 +8,7 @@ using namespace std;
 namespace itcoin {
 namespace wallet {
 
-RoastWallet::RoastWallet(const itcoin::FbftConfig& conf):
-Wallet(conf)
-{
-}
+RoastWallet::RoastWallet(const itcoin::FbftConfig& conf) : Wallet(conf) {}
 
-}
-}
+} // namespace wallet
+} // namespace itcoin

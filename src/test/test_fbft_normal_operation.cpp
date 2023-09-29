@@ -9,17 +9,20 @@ using namespace itcoin::fbft::messages;
 
 namespace state = itcoin::fbft::state;
 
-struct NormalOperationFixture: ReplicaStateFixture { NormalOperationFixture(): ReplicaStateFixture(4,0,60) {} };
+struct NormalOperationFixture : ReplicaStateFixture {
+  NormalOperationFixture() : ReplicaStateFixture(4, 0, 60) {}
+};
 
 BOOST_AUTO_TEST_SUITE(test_fbft_normal_operation, *utf::enabled())
 
-BOOST_FIXTURE_TEST_CASE(test_fbft_normal_operation_00, NormalOperationFixture)
-{
+BOOST_FIXTURE_TEST_CASE(test_fbft_normal_operation_00, NormalOperationFixture) {
   // Step 1. Simulate Receipt of a REQUEST message by replica 0
   uint32_t req_timestamp = 60;
-  Request request = Request(m_configs[0]->genesis_block_timestamp(), m_configs[0]->target_block_time(), req_timestamp);
+  Request request =
+      Request(m_configs[0]->genesis_block_timestamp(), m_configs[0]->target_block_time(), req_timestamp);
 
-  BOOST_LOG_TRIVIAL(debug) << "Simulating the creation of request with digest at all replicas = " << request.digest();
+  BOOST_LOG_TRIVIAL(debug) << "Simulating the creation of request with digest at all replicas = "
+                           << request.digest();
   m_states[0]->set_synthetic_time(req_timestamp);
   m_states[1]->set_synthetic_time(req_timestamp);
   m_states[2]->set_synthetic_time(req_timestamp);
@@ -155,8 +158,10 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_normal_operation_00, NormalOperationFixture)
   BOOST_CHECK(m_states[0]->active_actions().at(0)->type() == ACTION_TYPE::RECEIVE_PREPARE);
   BOOST_CHECK(m_states[0]->active_actions().at(1)->type() == ACTION_TYPE::RECEIVE_PREPARE);
 
-  ReceivePrepare receive_prepare_0 = ReceivePrepare(dynamic_cast<ReceivePrepare&>(*m_states[0]->active_actions().at(0)));
-  ReceivePrepare receive_prepare_1 = ReceivePrepare(dynamic_cast<ReceivePrepare&>(*m_states[0]->active_actions().at(1)));
+  ReceivePrepare receive_prepare_0 =
+      ReceivePrepare(dynamic_cast<ReceivePrepare&>(*m_states[0]->active_actions().at(0)));
+  ReceivePrepare receive_prepare_1 =
+      ReceivePrepare(dynamic_cast<ReceivePrepare&>(*m_states[0]->active_actions().at(1)));
 
   m_states[0]->Apply(receive_prepare_0);
   m_states[0]->Apply(receive_prepare_1);
@@ -224,8 +229,10 @@ BOOST_FIXTURE_TEST_CASE(test_fbft_normal_operation_00, NormalOperationFixture)
   BOOST_CHECK(m_states[0]->active_actions().at(0)->type() == ACTION_TYPE::RECEIVE_COMMIT);
   BOOST_CHECK(m_states[0]->active_actions().at(1)->type() == ACTION_TYPE::RECEIVE_COMMIT);
 
-  ReceiveCommit receive_commit_0 = ReceiveCommit(dynamic_cast<ReceiveCommit&>(*m_states[0]->active_actions().at(0)));
-  ReceiveCommit receive_commit_1 = ReceiveCommit(dynamic_cast<ReceiveCommit&>(*m_states[0]->active_actions().at(1)));
+  ReceiveCommit receive_commit_0 =
+      ReceiveCommit(dynamic_cast<ReceiveCommit&>(*m_states[0]->active_actions().at(0)));
+  ReceiveCommit receive_commit_1 =
+      ReceiveCommit(dynamic_cast<ReceiveCommit&>(*m_states[0]->active_actions().at(1)));
 
   m_states[0]->Apply(receive_commit_0);
   m_states[0]->Apply(receive_commit_1);

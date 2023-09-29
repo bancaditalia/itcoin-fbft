@@ -3,13 +3,12 @@
 
 #include "fixtures.h"
 
-BtcClientFixture::BtcClientFixture():
-cfgNode0(itcoin::FbftConfig((boost::filesystem::current_path() / "infra/node00").string())), bitcoind0(cfgNode0.itcoin_uri())
-{
+BtcClientFixture::BtcClientFixture()
+    : cfgNode0(itcoin::FbftConfig((boost::filesystem::current_path() / "infra/node00").string())),
+      bitcoind0(cfgNode0.itcoin_uri()) {
   BOOST_LOG_TRIVIAL(info) << "Setup fixture BtcClientFixture";
 }
 
-BtcClientFixture::~BtcClientFixture()
-{
+BtcClientFixture::~BtcClientFixture() {
   BOOST_LOG_TRIVIAL(info) << "Teardown fixture BtcClientFixture";
 } // ~BtcClientFixture()

@@ -6,10 +6,7 @@
 namespace itcoin {
 namespace wallet {
 
-Wallet::Wallet(const itcoin::FbftConfig& conf):
-m_conf(conf)
-{
-}
+Wallet::Wallet(const itcoin::FbftConfig& conf) : m_conf(conf) {}
 
-}
-}
+} // namespace wallet
+} // namespace itcoin

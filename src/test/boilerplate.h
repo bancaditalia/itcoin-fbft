@@ -16,16 +16,13 @@ namespace std {
  *
  * modified from: https://gist.github.com/mhamrah/79ed07a00209754a0ab1
  */
-inline std::ostream& operator<<(std::ostream &ostr, nullopt_t const &nope)
-{
+inline std::ostream& operator<<(std::ostream& ostr, nullopt_t const& nope) {
   ostr << "std::nullopt";
 
   return ostr;
 } // operator<< for nullopt_t
 
-template <typename T>
-inline std::ostream &operator<<(std::ostream &ostr, std::optional<T> const &maybeItem)
-{
+template <typename T> inline std::ostream& operator<<(std::ostream& ostr, std::optional<T> const& maybeItem) {
   if (maybeItem.has_value() == false) {
     ostr << std::nullopt;
 
@@ -42,24 +39,21 @@ inline std::ostream &operator<<(std::ostream &ostr, std::optional<T> const &mayb
  *
  * source: https://gist.github.com/mhamrah/79ed07a00209754a0ab1
  */
-template <typename T>
-inline std::ostream &operator<<(std::ostream &str, std::vector<T> const &items)
-{
-    str << '[';
-    bool first = true;
-    for (auto const& element : items) {
-        str << (!first ? "," : "") << element;
-        first = false;
-    }
-    return str << ']';
+template <typename T> inline std::ostream& operator<<(std::ostream& str, std::vector<T> const& items) {
+  str << '[';
+  bool first = true;
+  for (auto const& element : items) {
+    str << (!first ? "," : "") << element;
+    first = false;
+  }
+  return str << ']';
 } // operator<< for std::vector<T>
 
 /**
  * teach Boost.Test how to print std::unique_ptr<T>
  */
 template <typename T>
-inline std::ostream &operator<<(std::ostream &ostr, std::unique_ptr<T> const &uniquePtr)
-{
+inline std::ostream& operator<<(std::ostream& ostr, std::unique_ptr<T> const& uniquePtr) {
   if (uniquePtr == nullptr) {
     ostr << "nullptr";
 

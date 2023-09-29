@@ -6,10 +6,7 @@
 namespace itcoin {
 namespace network {
 
-NetworkTransport::NetworkTransport(const itcoin::FbftConfig& conf):
-m_conf(conf)
-{
-}
+NetworkTransport::NetworkTransport(const itcoin::FbftConfig& conf) : m_conf(conf) {}
 
-}
-}
+} // namespace network
+} // namespace itcoin

@@ -6,11 +6,14 @@
 
 #include <primitives/block.h>
 
-namespace itcoin { namespace transport {
-  class BtcClient;
-}} // namespace itcoin::transport
+namespace itcoin {
+namespace transport {
+class BtcClient;
+}
+} // namespace itcoin
 
-namespace itcoin { namespace blockchain {
+namespace itcoin {
+namespace blockchain {
 
 const std::vector<unsigned char> SIGNET_HEADER_VEC = std::vector<unsigned char>{0xec, 0xc7, 0xda, 0xa2};
 
@@ -36,7 +39,8 @@ const std::vector<unsigned char> SIGNET_HEADER_VEC = std::vector<unsigned char>{
  * @param address the reward address for the coinbase transaction
  * @return the generated block
  */
-CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& address, uint32_t block_timestamp);
+CBlock generateBlock(transport::BtcClient& bitcoindClient, const std::string& address,
+                     uint32_t block_timestamp);
 
 /**
  * Get the scriptPubKey of a Bitcoin address.
@@ -56,6 +60,7 @@ CScript getScriptPubKey(transport::BtcClient& bitcoindClient, const std::string&
  */
 CScript GetWitnessScript(uint256 witnessRoot, uint256 witnessNonce);
 
-}} // namespace itcoin::blockchain
+} // namespace blockchain
+} // namespace itcoin
 
 #endif // ITCOIN_BLOCKCHAIN_GENERATE_H
